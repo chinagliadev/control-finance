@@ -39,6 +39,8 @@ public class Despesas implements Serializable{
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
 
+	private Boolean status = true;
+	
 	public Despesas() {}
 	
 	public Despesas(Long id, String nome, Instant dataVencimento, BigDecimal valor, String descricao,

@@ -21,6 +21,7 @@ public class Categoria implements Serializable{
 	private String nome;
 	private Boolean status = true;
 	
+	
 	public Categoria() {}
 	
 	public Categoria(Long id, String nome, Boolean status) {
