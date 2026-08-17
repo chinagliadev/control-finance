@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tb_categoria")
-public class Categoria implements Serializable{
+@Table(name="tb_prioridade")
+public class Prioridade implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -19,28 +19,40 @@ public class Categoria implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private String cor;
 	private Boolean status = true;
 	
-	public Categoria() {}
-	
-	public Categoria(Long id, String nome, Boolean status) {
+	public Prioridade() {}
+
+	public Prioridade(Long id, String nome, String cor, Boolean status) {
 		this.id = id;
 		this.nome = nome;
+		this.cor = cor;
 		this.status = status;
 	}
-	
 	public Long getId() {
 		return id;
 	}
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public String getCor() {
+		return cor;
+	}
+
+	public void setCor(String cor) {
+		this.cor = cor;
+	}
+
 	public Boolean getStatus() {
 		return status;
 	}
+
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
@@ -58,7 +70,7 @@ public class Categoria implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Prioridade other = (Prioridade) obj;
 		return Objects.equals(id, other.id);
 	}
 	
