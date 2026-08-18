@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="tb_despesas")
-public class Despesas implements Serializable{
+public class Despesa implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,9 +41,9 @@ public class Despesas implements Serializable{
 
 	private Boolean status = true;
 	
-	public Despesas() {}
+	public Despesa() {}
 	
-	public Despesas(Long id, String nome, Instant dataVencimento, BigDecimal valor, String descricao,
+	public Despesa(Long id, String nome, Instant dataVencimento, BigDecimal valor, String descricao,
 			Categoria categoria, Prioridade prioridade, Usuario usuario) {
 		this.id = id;
 		this.nome = nome;
@@ -57,10 +57,6 @@ public class Despesas implements Serializable{
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getNome() {
@@ -119,6 +115,14 @@ public class Despesas implements Serializable{
 		this.usuario = usuario;
 	}
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -132,7 +136,7 @@ public class Despesas implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Despesas other = (Despesas) obj;
+		Despesa other = (Despesa) obj;
 		return Objects.equals(id, other.id);
 	}
 	

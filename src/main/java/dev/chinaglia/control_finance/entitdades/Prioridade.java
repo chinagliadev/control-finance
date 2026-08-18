@@ -1,12 +1,16 @@
 package dev.chinaglia.control_finance.entitdades;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,17 +26,23 @@ public class Prioridade implements Serializable{
 	private String cor;
 	private Boolean status = true;
 	
+	@OneToMany(mappedBy = "prioridade", fetch = FetchType.LAZY)
+	public Set<Despesa> despesas = new HashSet<>();
+	
 	public Prioridade() {}
-
-	public Prioridade(Long id, String nome, String cor, Boolean status) {
+	
+	public Prioridade(Long id, String nome, String cor, Boolean status, Set<Despesa> despesas) {
 		this.id = id;
 		this.nome = nome;
 		this.cor = cor;
 		this.status = status;
+		this.despesas = despesas;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -55,6 +65,10 @@ public class Prioridade implements Serializable{
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public Set<Despesa> getDespesas() {
+		return despesas;
 	}
 
 	@Override
