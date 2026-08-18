@@ -58,3 +58,5 @@ build/
 hs_err_pid*
 replay_pid*
 >>>>>>> cee7cca6df345d11beb177be6ee72fe87241c7d5
+
+.env
