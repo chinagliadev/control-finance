@@ -1,9 +1,14 @@
 package dev.chinaglia.control_finance.entitdades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,7 +20,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="tb_usuario")
-public class Usuario implements Serializable{
+public class Usuario implements Serializable, UserDetails{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -91,6 +96,21 @@ public class Usuario implements Serializable{
 			return false;
 		Usuario other = (Usuario) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	    return new HashSet<>();
+	}
+
+	@Override
+	public String getPassword() {
+	    return senha;
+	}
+
+	@Override
+	public String getUsername() {
+	    return email;
 	}
 	
 }
