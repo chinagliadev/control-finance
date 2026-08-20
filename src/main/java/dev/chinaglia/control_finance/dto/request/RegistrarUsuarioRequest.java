@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 public record RegistrarUsuarioRequest(
 
         @NotEmpty(message = "Nome é obrigatório")
+        @Size(min = 3, message="Campo nome deve ter no minimo 3 letras")
         String nome,
 
         @NotEmpty(message = "Email é obrigatório")
@@ -19,7 +20,7 @@ public record RegistrarUsuarioRequest(
         @NotEmpty(message = "Senha é obrigatória")
         @Size(min = 6, message = "A senha deve possuir pelo menos 6 caracteres")
         @Pattern(
-                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).+$",
+                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.]).+$",
                 message = "A senha deve conter letra maiúscula, letra minúscula, número e caractere especial"
         )
         String senha,
