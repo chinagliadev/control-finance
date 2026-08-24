@@ -8,6 +8,8 @@ public record LoginRequest
 				String email, 
 				@NotEmpty(message="Senha é obrigatória")
 				String senha
+				
+				
 		) {
 
 }
