@@ -50,8 +50,8 @@ public class CategoriaService {
 	{
 		if(id == null || id <= 0) {throw new CategoriaNaoEncontradaException("Informe uma categoria para remover a categoria");}
 		
-		Categoria categoria = categoriaRepository.findById(id).orElseThrow(()-> new CategoriaNaoEncontradaException("Categoria informada não existe"));
-		categoria.setStatus(true);
+		Categoria categoria = categoriaRepository.findByIdAndStatusTrue(id).orElseThrow(()-> new CategoriaNaoEncontradaException("Categoria informada não existe"));
+		categoria.setStatus(false);
 		
 		categoriaRepository.save(categoria);
 		
@@ -64,7 +64,7 @@ public class CategoriaService {
 		
 		if(categoriaRequest == null) {throw new CategoriaNaoEncontradaException("Informe uma categoria válida para realizar a atualização");}
 		
-		Categoria categoria = categoriaRepository.findById(id).orElseThrow(()-> new CategoriaNaoEncontradaException("Categoria informada não existe"));
+		Categoria categoria = categoriaRepository.findByIdAndStatusTrue(id).orElseThrow(()-> new CategoriaNaoEncontradaException("Categoria informada não existe"));
 
 		categoria.setNome(categoriaRequest.nome());
 		

@@ -58,12 +58,29 @@ public class PrioridadeService {
 	        );
 	    }
 
-	    Prioridade prioridade = prioridadeRepository.findById(id).orElseThrow(() -> new PrioridadeNaoEncontradaException("Prioridade informada não existe, informe uma prioridade novamente"));
+	    Prioridade prioridade = prioridadeRepository.findByIdAndStatusTrue(id).orElseThrow(() -> new PrioridadeNaoEncontradaException("Prioridade informada não existe, informe uma prioridade novamente"));
 
 	    prioridadeRepository.desativarPrioridade(id);
 
 	    prioridade.setStatus(false);
 
+	    return prioridadeMapper.toPrioridadeResponse(prioridade);
+	}
+	
+	public PrioridadeResponse update(Long id, PrioridadeRequest prioridadeRequest) {
+
+	    if (id == null || id <= 0) {
+	        throw new PrioridadeNaoEncontradaException("Informe uma prioridade valida");
+	    }
+
+	    if (prioridadeRequest == null ) {
+	        throw new PrioridadeNaoEncontradaException("Informe uma prioridade valida");
+	    }
+
+	    Prioridade prioridade = prioridadeRepository.findByIdAndStatusTrue(id).orElseThrow(() -> new PrioridadeNaoEncontradaException("Prioridade informada não existe, informe uma prioridade novamente"));
+	    prioridade.setNome(prioridadeRequest.nome());
+	    prioridade.setCor(prioridadeRequest.cor());
+	    
 	    return prioridadeMapper.toPrioridadeResponse(prioridade);
 	}
 	

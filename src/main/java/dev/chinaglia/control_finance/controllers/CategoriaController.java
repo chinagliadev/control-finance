@@ -56,7 +56,6 @@ public class CategoriaController {
 	@PutMapping("/{id}")
 	public ResponseEntity<CategoriaResponse> update(@PathVariable Long id, @RequestBody CategoriaRequest categoriaRequest)
 	{
-		System.out.println(categoriaRequest.nome());
 		return ResponseEntity.ok().body(categoriaService.update(id, categoriaRequest));
 	}
 }

@@ -10,6 +10,7 @@ import dev.chinaglia.control_finance.entitdades.Prioridade;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PrioridadeRepository extends JpaRepository<Prioridade, Long>{
@@ -20,4 +21,6 @@ public interface PrioridadeRepository extends JpaRepository<Prioridade, Long>{
     @Transactional
     @Query("UPDATE Prioridade p SET p.status = false WHERE p.id = :id")
     void desativarPrioridade(@Param("id") Long id);
+	
+	Optional<Prioridade> findByIdAndStatusTrue(Long id);
 }
