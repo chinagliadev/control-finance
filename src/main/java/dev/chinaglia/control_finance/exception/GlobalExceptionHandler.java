@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -50,4 +51,46 @@ public class GlobalExceptionHandler {
 
 	    return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
 	}
+	
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<ErrorMessageResponse> handleUsuarioJaCadastrado(HttpRequestMethodNotSupportedException exception, HttpServletRequest request) {
+
+	    ErrorMessageResponse error = new ErrorMessageResponse(
+	            Instant.now(),
+	            HttpStatus.METHOD_NOT_ALLOWED.value(),
+	            HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
+	            exception.getMessage(),
+	            request.getRequestURI()
+	    );
+
+	    return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+	
+	
+	@ExceptionHandler(CategoriaNaoEncontradaException.class)
+	public ResponseEntity<ErrorMessageResponse> handleCategoriaNaoEncontrada(CategoriaNaoEncontradaException exception, HttpServletRequest request) {
+	    ErrorMessageResponse error = new ErrorMessageResponse(
+	            Instant.now(),
+	            HttpStatus.NOT_FOUND.value(),
+	            HttpStatus.NOT_FOUND.getReasonPhrase(),
+	            exception.getMessage(),
+	            request.getRequestURI()
+	    );
+	    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	
+	@ExceptionHandler(PrioridadeNaoEncontradaException.class)
+	public ResponseEntity<ErrorMessageResponse> handlePrioridadeNaoEncontrada(PrioridadeNaoEncontradaException exception, HttpServletRequest request) {
+
+	    ErrorMessageResponse error = new ErrorMessageResponse(
+	            Instant.now(),
+	            HttpStatus.CONFLICT.value(),
+	            HttpStatus.CONFLICT.getReasonPhrase(),
+	            exception.getMessage(),
+	            request.getRequestURI()
+	    );
+
+	    return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+	
 }
