@@ -6,6 +6,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.chinaglia.control_finance.dto.request.CategoriaRequest;
 import dev.chinaglia.control_finance.dto.response.CategoriaResponse;
+import dev.chinaglia.control_finance.response.ApiResponse;
+import dev.chinaglia.control_finance.response.ResponseUtil;
 import dev.chinaglia.control_finance.service.CategoriaService;
 import jakarta.validation.Valid;
 
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 public class CategoriaController {
 	
 	private final CategoriaService categoriaService;
@@ -34,28 +36,28 @@ public class CategoriaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<CategoriaResponse>> findAll()
+	public ResponseEntity<ApiResponse<List<CategoriaResponse>>> findAll()
 	{
-		return ResponseEntity.ok(categoriaService.findAll());
+		return ResponseEntity.ok(ResponseUtil.sucesso(categoriaService.findAll(), "Categorias buscadas com sucesso", "/categorias"));
 	}
 	
 	@PostMapping
-	public ResponseEntity<CategoriaResponse> save(@RequestBody @Valid CategoriaRequest categoriaRequest) 
+	public ResponseEntity<ApiResponse<CategoriaResponse>> save(@RequestBody @Valid CategoriaRequest categoriaRequest) 
 	{
 		CategoriaResponse categoriaResponse = categoriaService.save(categoriaRequest);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoriaResponse.id()).toUri();
-		return ResponseEntity.created(location).body(categoriaResponse);
+		return ResponseEntity.created(location).body(ResponseUtil.sucesso(categoriaResponse, "Categoria salva com sucesso", location.toString()));
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<CategoriaResponse> updateStatus(@PathVariable Long id) {
+	public ResponseEntity<ApiResponse<CategoriaResponse>> updateStatus(@PathVariable Long id) {
 	    CategoriaResponse categoriaResponse = categoriaService.updateStatus(id);
-	    return ResponseEntity.ok(categoriaResponse);
+	    return ResponseEntity.ok(ResponseUtil.sucesso(categoriaResponse, "Categoria atualizada com sucesso", "/categorias"));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<CategoriaResponse> update(@PathVariable Long id, @RequestBody @Valid CategoriaRequest categoriaRequest)
+	public ResponseEntity<ApiResponse<CategoriaResponse>> update(@PathVariable Long id, @RequestBody @Valid CategoriaRequest categoriaRequest)
 	{
-		return ResponseEntity.ok().body(categoriaService.update(id, categoriaRequest));
+		return ResponseEntity.ok().body(ResponseUtil.sucesso(categoriaService.update(id, categoriaRequest), "Categoria ", "categorias"));
 	}
 }

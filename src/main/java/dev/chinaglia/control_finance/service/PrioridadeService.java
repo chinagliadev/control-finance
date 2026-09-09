@@ -81,6 +81,8 @@ public class PrioridadeService {
 	    prioridade.setNome(prioridadeRequest.nome());
 	    prioridade.setCor(prioridadeRequest.cor());
 	    
+	    prioridadeRepository.save(prioridade);
+	    
 	    return prioridadeMapper.toPrioridadeResponse(prioridade);
 	}
 	

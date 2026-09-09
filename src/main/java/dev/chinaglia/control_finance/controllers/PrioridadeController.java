@@ -16,12 +16,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.chinaglia.control_finance.dto.request.PrioridadeRequest;
 import dev.chinaglia.control_finance.dto.response.PrioridadeResponse;
+import dev.chinaglia.control_finance.response.ApiResponse;
+import dev.chinaglia.control_finance.response.ResponseUtil;
 import dev.chinaglia.control_finance.service.PrioridadeService;
 
 
 
 @RestController
-@RequestMapping("/prioridade")
+@RequestMapping("/prioridades")
 public class PrioridadeController {
 	
 	private final PrioridadeService prioridadeService;
@@ -32,29 +34,31 @@ public class PrioridadeController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<PrioridadeResponse> save(@RequestBody PrioridadeRequest prioridadeRequest)
-	{
-		PrioridadeResponse prioridadeResponse = prioridadeService.save(prioridadeRequest);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(prioridadeResponse.id()).toUri();
-		return ResponseEntity.created(location).body(prioridadeResponse);
+	public ResponseEntity<ApiResponse<PrioridadeResponse>> save(@RequestBody PrioridadeRequest prioridadeRequest) {
+
+	    PrioridadeResponse prioridadeResponse = prioridadeService.save(prioridadeRequest);
+
+	    URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(prioridadeResponse.id()).toUri();
+
+	    return ResponseEntity.created(location).body(ResponseUtil.sucesso(prioridadeResponse,"Prioridade cadastrada com sucesso",location.toString()));
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<PrioridadeResponse>> findAll() 
+	public ResponseEntity<ApiResponse<List<PrioridadeResponse>>> findAll() 
 	{
-		return ResponseEntity.ok(prioridadeService.findAll());
+		return ResponseEntity.ok(ResponseUtil.sucesso(prioridadeService.findAll(), "Prioridades buscadas com sucesso", "/prioridades"));
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<PrioridadeResponse> updateStatus(@PathVariable Long id)
+	public ResponseEntity<ApiResponse<PrioridadeResponse>> updateStatus(@PathVariable Long id)
 	{
-		return ResponseEntity.ok(prioridadeService.updateStatus(id));
+		return ResponseEntity.ok(ResponseUtil.sucesso(prioridadeService.updateStatus(id), "Prioridade editada com sucesso", "/prioridades/id") );
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<PrioridadeResponse> update(@PathVariable Long id, @RequestBody PrioridadeRequest prioridadeRequest)
+	public ResponseEntity<ApiResponse<PrioridadeResponse>> update(@PathVariable Long id, @RequestBody PrioridadeRequest prioridadeRequest)
 	{
-		return ResponseEntity.ok().body(prioridadeService.update(id, prioridadeRequest));
+		return ResponseEntity.ok().body(ResponseUtil.sucesso(prioridadeService.update(id, prioridadeRequest), "Prioridade editada com sucesso", "/prioridades/id"));
 	}
 	
 }
