@@ -36,14 +36,12 @@ public class DespesaSpecification {
 	}
 	
 	public static Specification<Despesa> usuarioId(Long usuarioId) {
-	    return (root, query, cb) -> 
-	    		usuarioId == null ? null : cb.equal(root.get("usuario").get("id"), usuarioId);
+	    return (root, query, cb) -> usuarioId == null ? null : cb.equal(root.get("usuario").get("id"), usuarioId);
 	}
 	
 	public static Specification<Despesa> statusTrue()
 	{
-		return (root, query, cb) -> 
-			cb.isTrue(root.get("status"));
+		return (root, query, cb) -> cb.isTrue(root.get("status"));
 	}
 	
 	
