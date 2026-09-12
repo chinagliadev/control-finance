@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import dev.chinaglia.control_finance.mapstruct.DespesaMapper;
 import dev.chinaglia.control_finance.repository.CategoriaRepository;
 import dev.chinaglia.control_finance.repository.DespesaRepository;
 import dev.chinaglia.control_finance.repository.UsuarioRepository;
+import dev.chinaglia.control_finance.specification.DespesaSpecification;
 
 @Service
 public class DespesaService {
@@ -77,16 +79,26 @@ public class DespesaService {
 	 * @param size: Tamanho de registro po pagina
 	 * @return Page DespesaResponse
 	 */
-	public Page<DespesaResponse> findAll(int page, int size) {
+	public Page<DespesaResponse> findAll(int page, int size, Integer mes) {
 
 		Usuario usuario = getUsuarioAutenticado();
 
 		Pageable pageable = PageRequest.of(page, size, Sort.by("dataVencimento").ascending());
-		Page<Despesa> despesas = despesaRepository.findByStatusTrueAndUsuarioId(usuario.getId(), pageable);
-
+		
+		Specification<Despesa>  despesaSpecification = 
+								Specification.where(DespesaSpecification.statusTrue())
+								.and(DespesaSpecification.usuarioId(usuario.getId()));
+		
 		List<DespesaResponse> despesasResponses = new ArrayList<>();
+		
+		if(mes != null) 
+		{
+			 despesaSpecification = despesaSpecification.and(DespesaSpecification.temMes(mes));
+		}
+		
+		Page<Despesa> despesas = despesaRepository.findAll(despesaSpecification, pageable);
 
-		for (Despesa despesa : despesas.getContent()) {
+		for (Despesa despesa : despesas) {
 			despesasResponses.add(despesaMapper.toDespesaResponse(despesa));
 		}
 

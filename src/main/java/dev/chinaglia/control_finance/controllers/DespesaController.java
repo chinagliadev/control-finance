@@ -37,11 +37,12 @@ public class DespesaController {
 
 	@GetMapping
 	public ResponseEntity<ApiResponse<Page<DespesaResponse>>> findAll(
+			@RequestParam(value="mes", required = false) Integer mes, 
 			@RequestParam(value="page", defaultValue = "0") int page, 
 			@RequestParam(value = "size", defaultValue = "6") int size
 	) {
 		
-		return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.findAll(page, size), "Despesas buscadas com sucesso", "/despesa"));
+		return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.findAll(page, size, mes), "Despesas buscadas com sucesso", "/despesa"));
 	}
 
 	@PostMapping
