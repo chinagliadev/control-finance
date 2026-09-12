@@ -30,185 +30,172 @@ import dev.chinaglia.control_finance.repository.UsuarioRepository;
 @Service
 public class DespesaService {
 
-    private final DespesaRepository despesaRepository;
-    private final CategoriaRepository categoriaRepository;
-    private final DespesaMapper despesaMapper;
-    private final UsuarioRepository usuarioRepository;
+	private final DespesaRepository despesaRepository;
+	private final CategoriaRepository categoriaRepository;
+	private final DespesaMapper despesaMapper;
+	private final UsuarioRepository usuarioRepository;
 
-    public DespesaService(
-            DespesaRepository despesaRepository,
-            CategoriaRepository categoriaRepository,
-            DespesaMapper despesaMapper,
-            UsuarioRepository usuarioRepository) {
+	public DespesaService(DespesaRepository despesaRepository, CategoriaRepository categoriaRepository,
+			DespesaMapper despesaMapper, UsuarioRepository usuarioRepository) {
 
-        this.despesaRepository = despesaRepository;
-        this.categoriaRepository = categoriaRepository;
-        this.despesaMapper = despesaMapper;
-        this.usuarioRepository = usuarioRepository;
-    }
+		this.despesaRepository = despesaRepository;
+		this.categoriaRepository = categoriaRepository;
+		this.despesaMapper = despesaMapper;
+		this.usuarioRepository = usuarioRepository;
+	}
 
-    public DespesaResponse save(DespesaRequest despesaRequest) {
+	/**
+	 * Metodo que salva uma despesa
+	 * @param despesaRequest
+	 * @return DespesaResponse
+	 */
+	public DespesaResponse save(DespesaRequest despesaRequest) {
 
-        if (despesaRequest == null) {
-            throw new DespesaNaoEncontradaException(
-                    "Informe uma despesa válida");
-        }
+		if (despesaRequest == null) {
+			throw new DespesaNaoEncontradaException("Informe uma despesa válida");
+		}
 
-        Usuario usuario = getUsuarioAutenticado();
+		Usuario usuario = getUsuarioAutenticado();
+		Categoria categoria = categoriaRepository
+				.findByIdAndStatusTrueAndUsuarioId(despesaRequest.categoria(), usuario.getId())
+				.orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria informada não existe"));
+		Despesa despesa = despesaMapper.toDespesaEntity(despesaRequest);
 
-        Categoria categoria = categoriaRepository
-                .findByIdAndStatusTrueAndUsuarioId(
-                        despesaRequest.categoria(),
-                        usuario.getId())
-                .orElseThrow(() ->
-                        new CategoriaNaoEncontradaException(
-                                "Categoria informada não existe"));
+		despesa.setCategoria(categoria);
+		despesa.setUsuario(usuario);
 
-        Despesa despesa =
-                despesaMapper.toDespesaEntity(despesaRequest);
+		despesaRepository.save(despesa);
 
-        despesa.setCategoria(categoria);
-        despesa.setUsuario(usuario);
+		return despesaMapper.toDespesaResponse(despesa);
+	}
 
-        despesaRepository.save(despesa);
+	/**
+	 * 
+	 * Metodo que retorna a despesa paginada
+	 * 
+	 * @param page: Numero da pagina
+	 * @param size: Tamanho de registro po pagina
+	 * @return Page DespesaResponse
+	 */
+	public Page<DespesaResponse> findAll(int page, int size) {
 
-        return despesaMapper.toDespesaResponse(despesa);
-    }
+		Usuario usuario = getUsuarioAutenticado();
 
-    public Page<DespesaResponse> findAll(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by("dataVencimento").ascending());
+		Page<Despesa> despesas = despesaRepository.findByStatusTrueAndUsuarioId(usuario.getId(), pageable);
 
-        Usuario usuario = getUsuarioAutenticado();
+		List<DespesaResponse> despesasResponses = new ArrayList<>();
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("dataVencimento").ascending());
+		for (Despesa despesa : despesas.getContent()) {
+			despesasResponses.add(despesaMapper.toDespesaResponse(despesa));
+		}
 
-        Page<Despesa> despesas =
-                despesaRepository.findByStatusTrueAndUsuarioId(
-                        usuario.getId(),
-                        pageable);
+		return new PageImpl<>(despesasResponses, pageable, despesas.getTotalElements());
+	}
 
-        List<DespesaResponse> despesasResponses =
-                new ArrayList<>();
+	
+	/**
+	 * Metodo que atualiza o status da despesa para false (Desativa a despesa)
+	 * 
+	 * @param id
+	 * @return DespesaResponse
+	 */
+	public DespesaResponse updateStatus(Long id) {
 
-        for (Despesa despesa : despesas.getContent()) {
-            despesasResponses.add(
-                    despesaMapper.toDespesaResponse(despesa));
-        }
+		if (id == null || id <= 0) {
+			throw new DespesaNaoEncontradaException("Informe uma despesa para remover a despesa");
+		}
 
-        return new PageImpl<>(
-                despesasResponses,
-                pageable,
-                despesas.getTotalElements());
-    }
+		Usuario usuario = getUsuarioAutenticado();
 
-    public DespesaResponse updateStatus(Long id) {
+		Despesa despesa = despesaRepository.findByIdAndStatusTrueAndUsuarioId(id, usuario.getId())
+				.orElseThrow(() -> new DespesaNaoEncontradaException("Despesa informada não existe"));
+		despesa.setStatus(false);
+		despesaRepository.save(despesa);
 
-        if (id == null || id <= 0) {
-            throw new DespesaNaoEncontradaException(
-                    "Informe uma despesa para remover a despesa");
-        }
+		return despesaMapper.toDespesaResponse(despesa);
+	}
 
-        Usuario usuario = getUsuarioAutenticado();
+	/**
+	 * Metodo que faz um update nas despesas
+	 * @param id
+	 * @param despesaRequest
+	 * @return DespesaResponse
+	 */
+	public DespesaResponse update(Long id, DespesaRequest despesaRequest) {
 
-        Despesa despesa = despesaRepository
-                .findByIdAndStatusTrueAndUsuarioId(
-                        id,
-                        usuario.getId())
-                .orElseThrow(() ->
-                        new DespesaNaoEncontradaException(
-                                "Despesa informada não existe"));
+		if (id == null || id <= 0) {
+			throw new DespesaNaoEncontradaException("Informe uma despesa válida");
+		}
 
-        despesa.setStatus(false);
+		if (despesaRequest == null) {
+			throw new DespesaNaoEncontradaException("Informe os dados da despesa");
+		}
 
-        despesaRepository.save(despesa);
+		Usuario usuario = getUsuarioAutenticado();
 
-        return despesaMapper.toDespesaResponse(despesa);
-    }
+		Despesa despesa = despesaRepository.findByIdAndStatusTrueAndUsuarioId(id, usuario.getId())
+				.orElseThrow(() -> new DespesaNaoEncontradaException("Despesa informada não existe"));
 
-    public DespesaResponse update(
-            Long id,
-            DespesaRequest despesaRequest) {
+		Categoria categoria = categoriaRepository
+				.findByIdAndStatusTrueAndUsuarioId(despesaRequest.categoria(), usuario.getId())
+				.orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria informada não existe"));
 
-        if (id == null || id <= 0) {
-            throw new DespesaNaoEncontradaException(
-                    "Informe uma despesa válida");
-        }
+		despesa.setNome(despesaRequest.nome());
+		despesa.setDataVencimento(despesaRequest.dataVencimento());
+		despesa.setValor(despesaRequest.valor());
+		despesa.setDescricao(despesaRequest.descricao());
+		despesa.setCategoria(categoria);
 
-        if (despesaRequest == null) {
-            throw new DespesaNaoEncontradaException(
-                    "Informe os dados da despesa");
-        }
+		despesaRepository.save(despesa);
 
-        Usuario usuario = getUsuarioAutenticado();
+		return despesaMapper.toDespesaResponse(despesa);
+	}
 
-        Despesa despesa = despesaRepository
-                .findByIdAndStatusTrueAndUsuarioId(
-                        id,
-                        usuario.getId())
-                .orElseThrow(() ->
-                        new DespesaNaoEncontradaException(
-                                "Despesa informada não existe"));
+	/**
+	 * Metodo que faz a soma do total de despesas do usuario logado
+	 * 
+	 * @return Big Decimal soma total de despesas do usuario
+	 */
+	public BigDecimal sumDespesas() {
 
-        Categoria categoria = categoriaRepository
-                .findByIdAndStatusTrueAndUsuarioId(
-                        despesaRequest.categoria(),
-                        usuario.getId())
-                .orElseThrow(() ->
-                        new CategoriaNaoEncontradaException(
-                                "Categoria informada não existe"));
+		Usuario usuario = getUsuarioAutenticado();
 
-        despesa.setNome(despesaRequest.nome());
-        despesa.setDataVencimento(
-                despesaRequest.dataVencimento());
-        despesa.setValor(despesaRequest.valor());
-        despesa.setDescricao(despesaRequest.descricao());
-        despesa.setCategoria(categoria);
+		return despesaRepository.sumDespesas(usuario.getId());
+	}
 
-        despesaRepository.save(despesa);
+	/**
+	 * Metodo que retorna uma lista de total de despesas por categoria (Response)
+	 * 
+	 * @return TotalDespesaCategoriaResponse
+	 */
+	public List<TotalDespesaCategoriaResponse> totalDespesaCategoriaResponse() {
 
-        return despesaMapper.toDespesaResponse(despesa);
-    }
+		Usuario usuario = getUsuarioAutenticado();
 
-    public BigDecimal sumDespesas() {
+		return despesaRepository.totalDespesaCategorias(usuario.getId());
+	}
 
-        Usuario usuario = getUsuarioAutenticado();
+	/**
+	 * Metodo que pega o usuario autenticado
+	 * @return usuario autenticado
+	 */
+	private Usuario getUsuarioAutenticado() {
 
-        return despesaRepository.sumDespesas(
-                usuario.getId());
-    }
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    public List<TotalDespesaCategoriaResponse>
-            totalDespesaCategoriaResponse() {
+		if (authentication == null || !authentication.isAuthenticated()) {
 
-        Usuario usuario = getUsuarioAutenticado();
+			throw new RuntimeException("Usuário não autenticado");
+		}
 
-        return despesaRepository.totalDespesaCategorias(
-                usuario.getId());
-    }
+		String email = authentication.getName();
 
-    private Usuario getUsuarioAutenticado() {
+		if (email == null || email.isBlank()) {
+			throw new RuntimeException("Usuário autenticado não possui email");
+		}
 
-        Authentication authentication =
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
-
-        if (authentication == null ||
-                !authentication.isAuthenticated()) {
-
-            throw new RuntimeException(
-                    "Usuário não autenticado");
-        }
-
-        String email = authentication.getName();
-
-        if (email == null || email.isBlank()) {
-            throw new RuntimeException(
-                    "Usuário autenticado não possui email");
-        }
-
-        return usuarioRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsuarioNaoEncontradoException(
-                                "Usuário não encontrado"));
-    }
+		return usuarioRepository.findByEmail(email)
+				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado"));
+	}
 }
