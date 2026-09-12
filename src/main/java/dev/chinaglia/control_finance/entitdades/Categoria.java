@@ -10,6 +10,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,6 +29,10 @@ public class Categoria implements Serializable{
 	
 	@OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
 	private Set<Despesa> despesas = new HashSet<>(); 
+	
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 	
 	public Categoria() {}
 
@@ -63,6 +69,18 @@ public class Categoria implements Serializable{
 
 	public Set<Despesa> getDespesas() {
 		return despesas;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public void setDespesas(Set<Despesa> despesas) {
+		this.despesas = despesas;
 	}
 
 	@Override

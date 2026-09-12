@@ -60,14 +60,6 @@ public class GlobalExceptionHandler {
 	    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 	
-	@ExceptionHandler(PrioridadeNaoEncontradaException.class)
-	public ResponseEntity<ErrorMessageResponse> handlePrioridadeNaoEncontrada(PrioridadeNaoEncontradaException exception, HttpServletRequest request) {
-
-	    ErrorMessageResponse error = new ErrorMessageResponse(Instant.now(),HttpStatus.CONFLICT.value(),HttpStatus.CONFLICT.getReasonPhrase(),exception.getMessage(),request.getRequestURI());
-
-	    return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
-	}
-	
 	@ExceptionHandler(DespesaNaoEncontradaException.class)
 	public ResponseEntity<ErrorMessageResponse> handleDespesaNaoEncontrada(DespesaNaoEncontradaException exception, HttpServletRequest request) {
 

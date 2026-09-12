@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,6 +33,10 @@ public class Usuario implements Serializable, UserDetails{
 	
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private Set<Despesa> despesas = new HashSet<>(); 
+	
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+	private Set<Categoria> categorias = new HashSet<>();
+	
 	
 	public Usuario() {}
 	
@@ -79,6 +82,10 @@ public class Usuario implements Serializable, UserDetails{
 
 	public Set<Despesa> getDespesas() {
 		return despesas;
+	}
+
+	public Set<Categoria> getCategorias() {
+		return categorias;
 	}
 
 	@Override

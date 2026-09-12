@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 import dev.chinaglia.control_finance.entitdades.Categoria;
 
 @Repository
-public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
-	
-	List<Categoria> findByStatusTrue();
-	
-	Optional<Categoria> findByIdAndStatusTrue(Long id);
+public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
+    List<Categoria> findByStatusTrueAndUsuarioId(Long usuarioId);
+    Optional<Categoria> findByIdAndStatusTrueAndUsuarioId(Long id, Long usuarioId);
 }

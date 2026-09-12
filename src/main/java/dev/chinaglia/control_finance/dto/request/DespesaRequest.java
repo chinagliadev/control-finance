@@ -2,6 +2,7 @@ package dev.chinaglia.control_finance.dto.request;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +17,7 @@ public record DespesaRequest
 	
 	        @NotNull(message = "Informe a data de vencimento")
 		    @FutureOrPresent(message = "A data de vencimento não pode ser anterior a hoje")
-	        Instant dataVencimento,
+		    LocalDate dataVencimento,
 	
 	        @NotNull(message = "Informe o valor da despesa")
 	        @Positive(message = "O valor da despesa deve ser maior que zero")
@@ -27,12 +28,7 @@ public record DespesaRequest
 	
 	        @NotNull(message = "Informe a categoria da despesa")
 	        @Positive(message = "A categoria informada deve ser válida")
-	        Long categoria,
-	
-	        @NotNull(message = "Informe a prioridade da despesa")
-	        @Positive(message = "A prioridade informada deve ser válida")
-	        Long prioridade
-
+	        Long categoria
 		){
 
 }

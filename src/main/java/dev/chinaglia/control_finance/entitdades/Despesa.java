@@ -3,6 +3,7 @@ package dev.chinaglia.control_finance.entitdades;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -23,17 +24,14 @@ public class Despesa implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private Instant dataVencimento;
+	private LocalDate dataVencimento;
 	private BigDecimal valor;
 	private String descricao;
+	private BigDecimal totalDespesas;
 	
 	@ManyToOne
 	@JoinColumn(name="categoria_id")
 	private Categoria categoria;
-	
-	@ManyToOne
-	@JoinColumn(name="prioridade_id")
-	private Prioridade prioridade;
 	
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
@@ -43,15 +41,14 @@ public class Despesa implements Serializable{
 	
 	public Despesa() {}
 	
-	public Despesa(Long id, String nome, Instant dataVencimento, BigDecimal valor, String descricao,
-			Categoria categoria, Prioridade prioridade, Usuario usuario) {
+	public Despesa(Long id, String nome, LocalDate dataVencimento, BigDecimal valor, String descricao,
+			Categoria categoria, Usuario usuario) {
 		this.id = id;
 		this.nome = nome;
 		this.dataVencimento = dataVencimento;
 		this.valor = valor;
 		this.descricao = descricao;
 		this.categoria = categoria;
-		this.prioridade = prioridade;
 		this.usuario = usuario;
 	}
 
@@ -67,11 +64,11 @@ public class Despesa implements Serializable{
 		this.nome = nome;
 	}
 
-	public Instant getDataVencimento() {
+	public LocalDate getDataVencimento() {
 		return dataVencimento;
 	}
 
-	public void setDataVencimento(Instant dataVencimento) {
+	public void setDataVencimento(LocalDate dataVencimento) {
 		this.dataVencimento = dataVencimento;
 	}
 
@@ -99,14 +96,6 @@ public class Despesa implements Serializable{
 		this.categoria = categoria;
 	}
 
-	public Prioridade getPrioridade() {
-		return prioridade;
-	}
-
-	public void setPrioridade(Prioridade prioridade) {
-		this.prioridade = prioridade;
-	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -121,6 +110,14 @@ public class Despesa implements Serializable{
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public BigDecimal getTotalDespesas() {
+		return totalDespesas;
+	}
+
+	public void setTotalDespesas(BigDecimal totalDespesas) {
+		this.totalDespesas = totalDespesas;
 	}
 
 	@Override
