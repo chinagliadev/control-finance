@@ -43,10 +43,12 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long>, JpaSpec
                 ON tb_categoria.id = tb_despesas.categoria_id
             WHERE tb_despesas.status != 0
             AND tb_despesas.usuario_id = :usuarioId
+            AND (:mes IS NULL OR MONTH(tb_despesas.data_vencimento) = :mes)
             GROUP BY tb_categoria.nome
             ORDER BY total DESC
             LIMIT 10
             """, nativeQuery = true)
     List<TotalDespesaCategoriaResponse> totalDespesaCategorias(
-            @Param("usuarioId") Long usuarioId);
+            @Param("usuarioId") Long usuarioId,
+            @Param("mes") Integer mes);
 }

@@ -2,7 +2,12 @@ package dev.chinaglia.control_finance.exception;
 
 public class CategoriaNaoEncontradaException extends RuntimeException {
 
-    public CategoriaNaoEncontradaException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public CategoriaNaoEncontradaException(String message) {
         super(message);
     }
 }

@@ -21,6 +21,7 @@ import dev.chinaglia.control_finance.entitdades.Categoria;
 import dev.chinaglia.control_finance.entitdades.Despesa;
 import dev.chinaglia.control_finance.entitdades.Usuario;
 import dev.chinaglia.control_finance.exception.CategoriaNaoEncontradaException;
+import dev.chinaglia.control_finance.exception.ControlFinanceException;
 import dev.chinaglia.control_finance.exception.DespesaNaoEncontradaException;
 import dev.chinaglia.control_finance.exception.UsuarioNaoEncontradoException;
 import dev.chinaglia.control_finance.mapstruct.DespesaMapper;
@@ -181,11 +182,15 @@ public class DespesaService {
 	 * 
 	 * @return TotalDespesaCategoriaResponse
 	 */
-	public List<TotalDespesaCategoriaResponse> totalDespesaCategoriaResponse() {
+	public List<TotalDespesaCategoriaResponse> totalDespesaCategoriaResponse(Integer mes) {
 
-		Usuario usuario = getUsuarioAutenticado();
+	    Usuario usuario = getUsuarioAutenticado();
 
-		return despesaRepository.totalDespesaCategorias(usuario.getId());
+	    if (mes != null && (mes < 1 || mes > 12)) {
+	        throw new ControlFinanceException("Informe um mês válido");
+	    }
+
+	    return despesaRepository.totalDespesaCategorias(usuario.getId(), mes);
 	}
 
 	/**

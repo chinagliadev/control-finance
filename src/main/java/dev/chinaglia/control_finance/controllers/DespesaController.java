@@ -78,9 +78,10 @@ public class DespesaController {
 	    BigDecimal total = despesaService.sumDespesas();
 	    return ResponseEntity.ok(ResponseUtil.sucesso(total,"Total de despesas calculado com sucesso", "/despesas/total"));
 	}
+	
 	@GetMapping("/totalCategoriaDespesas")
-	public ResponseEntity<ApiResponse<List<TotalDespesaCategoriaResponse>>> totalDespesaCategoriaResponse() {
-	    return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.totalDespesaCategoriaResponse(),"Total de despesas calculado com sucesso", "/despesas/total"));
+	public ResponseEntity<ApiResponse<List<TotalDespesaCategoriaResponse>>> totalDespesaCategoriaResponse(@RequestParam(value="mes", required = false) Integer mes) {
+	    return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.totalDespesaCategoriaResponse(mes),"Total de despesas calculado com sucesso", "/despesas/total"));
 	}
 	
 }
