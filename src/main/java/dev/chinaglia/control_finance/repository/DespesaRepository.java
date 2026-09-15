@@ -16,39 +16,33 @@ import dev.chinaglia.control_finance.dto.response.TotalDespesaCategoriaResponse;
 import dev.chinaglia.control_finance.entitdades.Despesa;
 
 @Repository
-public interface DespesaRepository extends JpaRepository<Despesa, Long>, JpaSpecificationExecutor<Despesa>  {
+public interface DespesaRepository extends JpaRepository<Despesa, Long>, JpaSpecificationExecutor<Despesa> {
 
-    Page<Despesa> findByStatusTrueAndUsuarioId(
-            Long usuarioId,
-            Pageable pageable);
+	Page<Despesa> findByStatusTrueAndUsuarioId(Long usuarioId, Pageable pageable);
 
-    Optional<Despesa> findByIdAndStatusTrueAndUsuarioId(
-            Long id,
-            Long usuarioId);
+	Optional<Despesa> findByIdAndStatusTrueAndUsuarioId(Long id, Long usuarioId);
 
-    @Query(value = """
-            SELECT COALESCE(SUM(valor), 0)
-            FROM tb_despesas
-            WHERE status != 0
-            AND usuario_id = :usuarioId
-            """, nativeQuery = true)
-    BigDecimal sumDespesas(
-            @Param("usuarioId") Long usuarioId);
+	@Query(value = """
+			SELECT COALESCE(SUM(valor), 0)
+			FROM tb_despesas
+			WHERE status != 0
+			AND usuario_id = :usuarioId AND (:mes IS NULL OR MONTH(tb_despesas.data_vencimento) = :mes)
+			""", nativeQuery = true)
+	BigDecimal sumDespesas(@Param("usuarioId") Long usuarioId, @Param("mes") Integer mes);
 
-    @Query(value = """
-            SELECT tb_categoria.nome AS categoria,
-                   COALESCE(SUM(tb_despesas.valor), 0) AS total
-            FROM tb_despesas
-            JOIN tb_categoria
-                ON tb_categoria.id = tb_despesas.categoria_id
-            WHERE tb_despesas.status != 0
-            AND tb_despesas.usuario_id = :usuarioId
-            AND (:mes IS NULL OR MONTH(tb_despesas.data_vencimento) = :mes)
-            GROUP BY tb_categoria.nome
-            ORDER BY total DESC
-            LIMIT 10
-            """, nativeQuery = true)
-    List<TotalDespesaCategoriaResponse> totalDespesaCategorias(
-            @Param("usuarioId") Long usuarioId,
-            @Param("mes") Integer mes);
+	@Query(value = """
+			SELECT tb_categoria.nome AS categoria,
+			       COALESCE(SUM(tb_despesas.valor), 0) AS total
+			FROM tb_despesas
+			JOIN tb_categoria
+			    ON tb_categoria.id = tb_despesas.categoria_id
+			WHERE tb_despesas.status != 0
+			AND tb_despesas.usuario_id = :usuarioId
+			AND (:mes IS NULL OR MONTH(tb_despesas.data_vencimento) = :mes)
+			GROUP BY tb_categoria.nome
+			ORDER BY total DESC
+			LIMIT 10
+			""", nativeQuery = true)
+	List<TotalDespesaCategoriaResponse> totalDespesaCategorias(@Param("usuarioId") Long usuarioId,
+			@Param("mes") Integer mes);
 }

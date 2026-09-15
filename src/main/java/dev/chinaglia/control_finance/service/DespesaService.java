@@ -170,11 +170,13 @@ public class DespesaService {
 	 * 
 	 * @return Big Decimal soma total de despesas do usuario
 	 */
-	public BigDecimal sumDespesas() {
+	public BigDecimal sumDespesas(Integer mes) {
 
+		if(mes != null && (mes < 1 || mes > 12)) {throw new ControlFinanceException("Informe um mês válido");};
+		
 		Usuario usuario = getUsuarioAutenticado();
 
-		return despesaRepository.sumDespesas(usuario.getId());
+		return despesaRepository.sumDespesas(usuario.getId(), mes);
 	}
 
 	/**
