@@ -10,11 +10,11 @@ import dev.chinaglia.control_finance.entitdades.Despesa;
 @Mapper(componentModel = "spring")
 public interface DespesaMapper {
 
-	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "categoria", ignore = true)
-	@Mapping(target = "usuario", ignore = true)
-	@Mapping(target = "status", ignore = true)
-	Despesa toDespesaEntity(DespesaRequest request);
-	
-	DespesaResponse toDespesaResponse(Despesa despesa);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "categoria", ignore = true)
+    @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    Despesa toDespesaEntity(DespesaRequest request);
+
+    DespesaResponse toDespesaResponse(Despesa despesa);
 }

@@ -1,6 +1,7 @@
 package dev.chinaglia.control_finance.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import dev.chinaglia.control_finance.repository.DespesaRepository;
 import dev.chinaglia.control_finance.repository.UsuarioRepository;
 import dev.chinaglia.control_finance.specification.DespesaSpecification;
 
+
 @Service
 public class DespesaService {
 
@@ -49,8 +51,6 @@ public class DespesaService {
 
 	/**
 	 * Metodo que salva uma despesa
-	 * @param despesaRequest
-	 * @return DespesaResponse
 	 */
 	public DespesaResponse save(DespesaRequest despesaRequest) {
 
@@ -59,10 +59,31 @@ public class DespesaService {
 		}
 
 		Usuario usuario = getUsuarioAutenticado();
+
 		Categoria categoria = categoriaRepository
 				.findByIdAndStatusTrueAndUsuarioId(despesaRequest.categoria(), usuario.getId())
 				.orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria informada não existe"));
+
 		Despesa despesa = despesaMapper.toDespesaEntity(despesaRequest);
+
+		despesa.setDataDespesa(LocalDate.now());
+
+		if (despesa.getaPagar()) {
+
+			despesa.setDataVencimento(despesaRequest.dataVencimento());
+
+			if (despesa.getParcelado()) {
+				despesa.setQuantidadeParcela(despesaRequest.quantidadeParcela());
+			} else {
+				despesa.setQuantidadeParcela(null);
+			}
+
+		} else {
+
+			despesa.setDataVencimento(null);
+			despesa.setParcelado(false);
+			despesa.setQuantidadeParcela(null);
+		}
 
 		despesa.setCategoria(categoria);
 		despesa.setUsuario(usuario);
@@ -73,31 +94,24 @@ public class DespesaService {
 	}
 
 	/**
-	 * 
 	 * Metodo que retorna a despesa paginada
-	 * 
-	 * @param page: Numero da pagina
-	 * @param size: Tamanho de registro po pagina
-	 * @return Page DespesaResponse
 	 */
 	public Page<DespesaResponse> findAll(int page, int size, Integer mes) {
 
 		Usuario usuario = getUsuarioAutenticado();
 
 		Pageable pageable = PageRequest.of(page, size, Sort.by("dataVencimento").ascending());
-		
-		Specification<Despesa>  despesaSpecification = 
-								Specification.where(DespesaSpecification.statusTrue())
-								.and(DespesaSpecification.usuarioId(usuario.getId()));
-		
-		List<DespesaResponse> despesasResponses = new ArrayList<>();
-		
-		if(mes != null) 
-		{
-			 despesaSpecification = despesaSpecification.and(DespesaSpecification.temMes(mes));
+
+		Specification<Despesa> despesaSpecification = Specification.where(DespesaSpecification.statusTrue())
+				.and(DespesaSpecification.usuarioId(usuario.getId()));
+
+		if (mes != null) {
+			despesaSpecification = despesaSpecification.and(DespesaSpecification.temMes(mes));
 		}
-		
+
 		Page<Despesa> despesas = despesaRepository.findAll(despesaSpecification, pageable);
+
+		List<DespesaResponse> despesasResponses = new ArrayList<>();
 
 		for (Despesa despesa : despesas) {
 			despesasResponses.add(despesaMapper.toDespesaResponse(despesa));
@@ -106,12 +120,8 @@ public class DespesaService {
 		return new PageImpl<>(despesasResponses, pageable, despesas.getTotalElements());
 	}
 
-	
 	/**
-	 * Metodo que atualiza o status da despesa para false (Desativa a despesa)
-	 * 
-	 * @param id
-	 * @return DespesaResponse
+	 * Metodo que atualiza o status da despesa para false
 	 */
 	public DespesaResponse updateStatus(Long id) {
 
@@ -123,7 +133,9 @@ public class DespesaService {
 
 		Despesa despesa = despesaRepository.findByIdAndStatusTrueAndUsuarioId(id, usuario.getId())
 				.orElseThrow(() -> new DespesaNaoEncontradaException("Despesa informada não existe"));
+
 		despesa.setStatus(false);
+
 		despesaRepository.save(despesa);
 
 		return despesaMapper.toDespesaResponse(despesa);
@@ -131,9 +143,6 @@ public class DespesaService {
 
 	/**
 	 * Metodo que faz um update nas despesas
-	 * @param id
-	 * @param despesaRequest
-	 * @return DespesaResponse
 	 */
 	public DespesaResponse update(Long id, DespesaRequest despesaRequest) {
 
@@ -155,10 +164,35 @@ public class DespesaService {
 				.orElseThrow(() -> new CategoriaNaoEncontradaException("Categoria informada não existe"));
 
 		despesa.setNome(despesaRequest.nome());
-		despesa.setDataVencimento(despesaRequest.dataVencimento());
 		despesa.setValor(despesaRequest.valor());
 		despesa.setDescricao(despesaRequest.descricao());
 		despesa.setCategoria(categoria);
+
+		if (despesaRequest.aPagar()) {
+
+			despesa.setaPagar(true);
+
+			despesa.setDataVencimento(despesaRequest.dataVencimento());
+
+			if (despesaRequest.parcelado()) {
+
+				despesa.setParcelado(true);
+
+				despesa.setQuantidadeParcela(despesaRequest.quantidadeParcela());
+
+			} else {
+
+				despesa.setParcelado(false);
+				despesa.setQuantidadeParcela(null);
+			}
+
+		} else {
+
+			despesa.setaPagar(false);
+			despesa.setDataVencimento(null);
+			despesa.setParcelado(false);
+			despesa.setQuantidadeParcela(null);
+		}
 
 		despesaRepository.save(despesa);
 
@@ -167,37 +201,34 @@ public class DespesaService {
 
 	/**
 	 * Metodo que faz a soma do total de despesas do usuario logado
-	 * 
-	 * @return Big Decimal soma total de despesas do usuario
 	 */
 	public BigDecimal sumDespesas(Integer mes) {
 
-		if(mes != null && (mes < 1 || mes > 12)) {throw new ControlFinanceException("Informe um mês válido");};
-		
+		if (mes != null && (mes < 1 || mes > 12)) {
+			throw new ControlFinanceException("Informe um mês válido");
+		}
+
 		Usuario usuario = getUsuarioAutenticado();
 
 		return despesaRepository.sumDespesas(usuario.getId(), mes);
 	}
 
 	/**
-	 * Metodo que retorna uma lista de total de despesas por categoria (Response)
-	 * 
-	 * @return TotalDespesaCategoriaResponse
+	 * Metodo que retorna uma lista de total de despesas por categoria
 	 */
 	public List<TotalDespesaCategoriaResponse> totalDespesaCategoriaResponse(Integer mes) {
 
-	    Usuario usuario = getUsuarioAutenticado();
+		Usuario usuario = getUsuarioAutenticado();
 
-	    if (mes != null && (mes < 1 || mes > 12)) {
-	        throw new ControlFinanceException("Informe um mês válido");
-	    }
+		if (mes != null && (mes < 1 || mes > 12)) {
+			throw new ControlFinanceException("Informe um mês válido");
+		}
 
-	    return despesaRepository.totalDespesaCategorias(usuario.getId(), mes);
+		return despesaRepository.totalDespesaCategorias(usuario.getId(), mes);
 	}
 
 	/**
 	 * Metodo que pega o usuario autenticado
-	 * @return usuario autenticado
 	 */
 	private Usuario getUsuarioAutenticado() {
 
