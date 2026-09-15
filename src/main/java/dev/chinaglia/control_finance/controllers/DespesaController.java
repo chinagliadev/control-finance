@@ -37,11 +37,12 @@ public class DespesaController {
 
 	@GetMapping
 	public ResponseEntity<ApiResponse<Page<DespesaResponse>>> findAll(
+			@RequestParam(value="mes", required = false) Integer mes, 
 			@RequestParam(value="page", defaultValue = "0") int page, 
 			@RequestParam(value = "size", defaultValue = "6") int size
 	) {
 		
-		return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.findAll(page, size), "Despesas buscadas com sucesso", "/despesa"));
+		return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.findAll(page, size, mes), "Despesas buscadas com sucesso", "/despesa"));
 	}
 
 	@PostMapping
@@ -73,13 +74,14 @@ public class DespesaController {
 	}
 	
 	@GetMapping("/total")
-	public ResponseEntity<ApiResponse<BigDecimal>> sumDespesas() {
-	    BigDecimal total = despesaService.sumDespesas();
+	public ResponseEntity<ApiResponse<BigDecimal>> sumDespesas(@RequestParam(value="mes", required=false) Integer mes) {
+	    BigDecimal total = despesaService.sumDespesas(mes);
 	    return ResponseEntity.ok(ResponseUtil.sucesso(total,"Total de despesas calculado com sucesso", "/despesas/total"));
 	}
+	
 	@GetMapping("/totalCategoriaDespesas")
-	public ResponseEntity<ApiResponse<List<TotalDespesaCategoriaResponse>>> totalDespesaCategoriaResponse() {
-	    return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.totalDespesaCategoriaResponse(),"Total de despesas calculado com sucesso", "/despesas/total"));
+	public ResponseEntity<ApiResponse<List<TotalDespesaCategoriaResponse>>> totalDespesaCategoriaResponse(@RequestParam(value="mes", required = false) Integer mes) {
+	    return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.totalDespesaCategoriaResponse(mes),"Total de despesas calculado com sucesso", "/despesas/total"));
 	}
 	
 }
