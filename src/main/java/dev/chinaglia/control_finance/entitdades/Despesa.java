@@ -3,14 +3,18 @@ package dev.chinaglia.control_finance.entitdades;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -49,12 +53,16 @@ public class Despesa implements Serializable {
 
     private Boolean status = true;
 
+    @OneToMany(mappedBy = "despesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Parcela> parcelas = new ArrayList<>();
+
     public Despesa() {
     }
 
-    public Despesa(Long id, String nome, LocalDate dataVencimento, LocalDate dataDespesa,
-            BigDecimal valor, String descricao, Boolean aPagar, Boolean parcelado,
-            Integer quantidadeParcela, Categoria categoria, Usuario usuario) {
+    public Despesa(Long id, String nome, LocalDate dataVencimento,
+            LocalDate dataDespesa, BigDecimal valor, String descricao,
+            Boolean aPagar, Boolean parcelado, Integer quantidadeParcela,
+            Categoria categoria, Usuario usuario) {
 
         this.id = id;
         this.nome = nome;
@@ -159,6 +167,14 @@ public class Despesa implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public List<Parcela> getParcelas() {
+        return parcelas;
+    }
+
+    public void setParcelas(List<Parcela> parcelas) {
+        this.parcelas = parcelas;
     }
 
     @Override
