@@ -4,16 +4,39 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record DespesaResponse(
-		Long id,
-		String nome,
-		LocalDate dataDespesa,
-		LocalDate dataVencimento,
-		BigDecimal valor,
-		String descricao,
-		boolean aPagar,
-		boolean parcelado,
-		Integer quantidadeParcela,
-		CategoriaResponse categoria
+
+        Long id,
+
+        String nome,
+
+        LocalDate dataVencimento,
+        
+        LocalDate dataPagamento,
+        
+        LocalDate dataDespesa,
+
+        BigDecimal valor,
+
+        String descricao,
+
+        Boolean aPagar,
+
+        Boolean parcelado,
+
+        Boolean parcelaPaga,
+        
+        Integer quantidadeParcela,
+
+        Integer numeroParcela,
+        
+        Integer numeroParcelaEditada,
+
+        Long categoria,
+
+        String categoriaNome,
+
+        Boolean status
+
 ) {
 
 }

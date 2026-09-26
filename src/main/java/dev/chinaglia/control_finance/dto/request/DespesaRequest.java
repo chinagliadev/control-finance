@@ -29,9 +29,14 @@ public record DespesaRequest(
 		Boolean aPagar,
 
 		Boolean parcelado,
+		
+		Boolean parcelaPaga,
 
 		@Positive(message = "A quantidade de parcelas deve ser maior que zero")
 		Integer quantidadeParcela,
+		
+		
+		Integer numeroParcelaEditada,
 
 		@NotNull(message = "Informe a categoria da despesa")
 		@Positive(message = "A categoria informada deve ser válida")
