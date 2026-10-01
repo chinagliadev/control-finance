@@ -1,6 +1,8 @@
 # Controle Financeiro
 ![Status](https://img.shields.io/badge/PROJETO-EM_DESENVOLVIMENTO-yellow?style=for-the-badge)
 
+> No final da pagina, tem uma explicação breve das futuras implementações.
+
 O Controle Financeiro é um sistema desenvolvido para auxiliar no gerenciamento e organização das despesas pessoais. A aplicação permite registrar, consultar e acompanhar os gastos realizados, facilitando a visualização de como o dinheiro está sendo utilizado ao longo dos meses.
 
 O sistema organiza as despesas por categorias e períodos, permitindo que o usuário acompanhe seus gastos de forma mais clara e tenha uma visão geral de sua situação financeira. Também é possível controlar despesas parceladas, acompanhar vencimentos e visualizar os valores gastos em cada categoria.
