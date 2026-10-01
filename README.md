@@ -10,11 +10,81 @@ A proposta do projeto é tornar o controle das finanças pessoais mais simples e
 
 ---
 
-### Back-End
+## Front End
+
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white)
+
+#### Login
+
+Ao iniciar o sistema, a primeira tela apresentada é a **tela de login**, onde o usuário deve informar seu **E-mail** e **Senha** para realizar a autenticação.
+
+![Tela de login](src/main/resources/static/doc/img/image.png)
+
+#### Cadastro
+
+Caso o usuário ainda não possua uma conta, poderá realizar seu **cadastro** no sistema para obter acesso às funcionalidades da aplicação.
+
+![Tela de cadastro](src/main/resources/static/doc/img/image-1.png)
+
+#### Início
+
+Após a validação das credenciais, o usuário é autenticado e direcionado para a **tela inicial** do sistema, onde poderá acessar as principais funcionalidades da aplicação.
+
+![Tela inicial](src/main/resources/static/doc/img/image-2.png)
+
+#### Criar Despesas
+
+Para cadastrar uma nova despesa, o usuário deve clicar no botão **+ Despesas**. Em seguida, será exibido um **modal** contendo os campos necessários para o preenchimento e registro da despesa.
+
+![Modal de criar despesa](src/main/resources/static/doc/img/image-3.png)
+
+#### Visualização das despesas
+
+Após o cadastro, a despesa é apresentada em um **card** contendo as principais informações, como **categoria**, **valor total** e **status**. O card também disponibiliza as opções para **editar** ou **remover** a despesa.
+
+Quando a despesa não possui parcelamento, seu status é definido automaticamente como **Pago**.
+
+![Card da despesa](src/main/resources/static/doc/img/image-5.png)
+
+#### Cadastrar Despesas com Vencimento ou Parcelamento
+
+O sistema também permite cadastrar despesas que possuem **data de vencimento** ou **parcelamento**. Ao informar essas opções, é possível definir a quantidade de parcelas e acompanhar individualmente o status de pagamento de cada uma delas.
+
+Dessa forma, o sistema mantém o controle das despesas futuras e permite acompanhar quais parcelas já foram **pagas** e quais ainda estão **pendentes**.
+
+![Despesa com vencimento e parcelamento](src/main/resources/static/doc/img/image-6.png)
+
+#### Status de despesas
+
+Cada despesa possui um **status** que representa sua situação atual no sistema:
+
+**🔵 No prazo** — despesa com vencimento a partir de 10 dias.
+
+**🟡 Atenção** — despesa com vencimento entre 6 e 9 dias.
+
+**🔴 Urgente** — despesa com vencimento hoje ou nos próximos 5 dias.
+
+**🔴 Vencida** — despesa que ultrapassou a data de vencimento sem registro de pagamento.
+
+**🟢 Paga** — despesa que já foi marcada como paga.
+
+![Status das despesas](src/main/resources/static/doc/img/image-9.png)
+
+#### Remover Despesa
+
+Caso queira remover uma despesa, o usuário deve clicar no ícone de **lixeira** localizado no card da despesa. Em seguida, será exibido um **modal de confirmação** para confirmar a remoção.
+
+![Ícone de lixeira no card](src/main/resources/static/doc/img/image-10.png)
+
+> Modal de confirmação
+
+![Modal de confirmação de remoção](src/main/resources/static/doc/img/image-11.png)
+
+## Back-End
 
 > Documentação da API, endpoints, autenticação e funcionalidades do sistema.
 
-#### Tecnologias e versões 
+#### Tecnologias e versões
 
 | Tecnologia | Versão |
 |---|---|
@@ -30,7 +100,6 @@ A proposta do projeto é tornar o controle das finanças pessoais mais simples e
 | MapStruct <img src="https://skillicons.dev/icons?i=java" width="20"> | 1.6.3 |
 | Lombok <img src="https://skillicons.dev/icons?i=java" width="20"> | gerenciado pelo Spring Boot |
 | springdoc-openapi (Swagger UI) <img src="https://skillicons.dev/icons?i=swagger" width="20"> | 3.1.1 |
-
 
 #### Pré-requisitos de uso
 
