@@ -1,4 +1,4 @@
-## Controle Financeiro
+# Controle Financeiro
 
 O Controle Financeiro é um sistema desenvolvido para auxiliar no gerenciamento e organização das despesas pessoais. A aplicação permite registrar, consultar e acompanhar os gastos realizados, facilitando a visualização de como o dinheiro está sendo utilizado ao longo dos meses.
 
@@ -8,7 +8,9 @@ A proposta do projeto é tornar o controle das finanças pessoais mais simples e
 
 > Projeto desenvolvido **Full Stack**, portanto a documentação está dividida em duas partes: **Back-End**, responsável pela documentação dos endpoints e funcionalidades utilizando **JSON** e **JWT**; e **Front-End**, responsável pela documentação da interface e integração com a API.
 
----
+###### Desenvolvedor
+
+**Victor Chinaglia** — [chinagliadev.github.io](https://chinagliadev.github.io/)
 
 ## Front End
 
@@ -91,6 +93,8 @@ O gráfico é alimentado pelo endpoint `GET /despesas/totalCategoriaDespesas`, q
 ![Gráfico de despesas por categoria](src/main/resources/static/doc/img/img-grafico.png)
 
 ## Back-End
+
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/spring%20boot-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white) ![Spring Security](https://img.shields.io/badge/spring%20security-%236DB33F.svg?style=for-the-badge&logo=springsecurity&logoColor=white) ![Hibernate](https://img.shields.io/badge/hibernate-%2359666C.svg?style=for-the-badge&logo=hibernate&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-%234479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Maven](https://img.shields.io/badge/maven-%23C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=jsonwebtokens&logoColor=white) ![Swagger](https://img.shields.io/badge/swagger-%2385EA2D.svg?style=for-the-badge&logo=swagger&logoColor=black)
 
 > Documentação da API, endpoints, autenticação e funcionalidades do sistema.
 
@@ -379,7 +383,3 @@ src/main/resources
 ├── static         # Front-end (HTML/CSS/JS)
 └── application.properties
 ```
-
-## Desenvolvedor
-
-**Victor Chinaglia Neto** — [github.com/chinagliadev](https://github.com/chinagliadev)
