@@ -14,31 +14,31 @@ A proposta do projeto é tornar o controle das finanças pessoais mais simples e
 
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white)
 
-#### Login
+### Login
 
 Ao iniciar o sistema, a primeira tela apresentada é a **tela de login**, onde o usuário deve informar seu **E-mail** e **Senha** para realizar a autenticação.
 
 ![Tela de login](src/main/resources/static/doc/img/image.png)
 
-#### Cadastro
+### Cadastro
 
 Caso o usuário ainda não possua uma conta, poderá realizar seu **cadastro** no sistema para obter acesso às funcionalidades da aplicação.
 
 ![Tela de cadastro](src/main/resources/static/doc/img/image-1.png)
 
-#### Início
+### Início
 
 Após a validação das credenciais, o usuário é autenticado e direcionado para a **tela inicial** do sistema, onde poderá acessar as principais funcionalidades da aplicação.
 
 ![Tela inicial](src/main/resources/static/doc/img/image-2.png)
 
-#### Criar Despesas
+### Criar Despesas
 
 Para cadastrar uma nova despesa, o usuário deve clicar no botão **+ Despesas**. Em seguida, será exibido um **modal** contendo os campos necessários para o preenchimento e registro da despesa.
 
 ![Modal de criar despesa](src/main/resources/static/doc/img/image-3.png)
 
-#### Visualização das despesas
+### Visualização das despesas
 
 Após o cadastro, a despesa é apresentada em um **card** contendo as principais informações, como **categoria**, **valor total** e **status**. O card também disponibiliza as opções para **editar** ou **remover** a despesa.
 
@@ -46,7 +46,7 @@ Quando a despesa não possui parcelamento, seu status é definido automaticament
 
 ![Card da despesa](src/main/resources/static/doc/img/image-5.png)
 
-#### Cadastrar Despesas com Vencimento ou Parcelamento
+### Cadastrar Despesas com Vencimento ou Parcelamento
 
 O sistema também permite cadastrar despesas que possuem **data de vencimento** ou **parcelamento**. Ao informar essas opções, é possível definir a quantidade de parcelas e acompanhar individualmente o status de pagamento de cada uma delas.
 
@@ -54,7 +54,7 @@ Dessa forma, o sistema mantém o controle das despesas futuras e permite acompan
 
 ![Despesa com vencimento e parcelamento](src/main/resources/static/doc/img/image-6.png)
 
-#### Status de despesas
+### Status de despesas
 
 Cada despesa possui um **status** que representa sua situação atual no sistema:
 
@@ -70,7 +70,7 @@ Cada despesa possui um **status** que representa sua situação atual no sistema
 
 ![Status das despesas](src/main/resources/static/doc/img/image-9.png)
 
-#### Remover Despesa
+### Remover Despesa
 
 Caso queira remover uma despesa, o usuário deve clicar no ícone de **lixeira** localizado no card da despesa. Em seguida, será exibido um **modal de confirmação** para confirmar a remoção.
 
