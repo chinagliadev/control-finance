@@ -80,6 +80,16 @@ Caso queira remover uma despesa, o usuário deve clicar no ícone de **lixeira**
 
 ![Modal de confirmação de remoção](src/main/resources/static/doc/img/image-11.png)
 
+#### Gráfico de Despesas
+
+A tela inicial também conta com um **gráfico de despesas por categoria**, desenvolvido com a biblioteca **Chart.js**. Ele mostra de forma visual como o dinheiro está distribuído, e cada fatia (ou barra) representa uma categoria, como Alimentação, Transporte ou Lazer.
+
+Com isso, o usuário consegue identificar rapidamente **quais categorias concentram mais gastos** e onde vale a pena economizar. Quanto maior a fatia, maior o valor gasto naquela categoria.
+
+O gráfico é alimentado pelo endpoint `GET /despesas/totalCategoriaDespesas`, que retorna o total das despesas agrupadas por categoria, e acompanha o **filtro por mês**: ao trocar o mês, os valores do gráfico são atualizados.
+
+![Gráfico de despesas por categoria](src/main/resources/static/doc/img/img-grafico.png)
+
 ## Back-End
 
 > Documentação da API, endpoints, autenticação e funcionalidades do sistema.
