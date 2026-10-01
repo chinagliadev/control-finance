@@ -1,4 +1,5 @@
 # Controle Financeiro
+![Status](https://img.shields.io/badge/PROJETO-EM_DESENVOLVIMENTO-yellow?style=for-the-badge)
 
 O Controle Financeiro é um sistema desenvolvido para auxiliar no gerenciamento e organização das despesas pessoais. A aplicação permite registrar, consultar e acompanhar os gastos realizados, facilitando a visualização de como o dinheiro está sendo utilizado ao longo dos meses.
 
@@ -383,3 +384,15 @@ src/main/resources
 ├── static         # Front-end (HTML/CSS/JS)
 └── application.properties
 ```
+
+## Futuras implementações
+
+![Excel](https://img.shields.io/badge/Excel-217346?style=for-the-badge&logo=microsoftexcel&logoColor=white) ![JasperReports](https://img.shields.io/badge/JasperReports-B22222?style=for-the-badge&logo=jasper&logoColor=white)
+
+#### Exportação para Excel
+
+Permitir que o usuário exporte suas despesas para uma planilha **Excel (.xlsx)**, com filtro por mês e por categoria. Muita gente já organiza as finanças em planilhas, então essa exportação facilita a análise dos dados fora do sistema, backups e a comparação com outros controles.
+
+####  Relatórios com JasperReports
+
+Gerar **relatórios em PDF** com o **JasperReports**, como o resumo mensal, o total por categoria e as parcelas a vencer. A ideia é dar ao usuário um documento pronto, bem formatado e fácil de imprimir ou compartilhar, complementando o gráfico da tela inicial.
