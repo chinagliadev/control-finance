@@ -1,0 +1,194 @@
+{
+    "caminho": "/despesa",
+    "dados": {
+        "content": [
+            {
+                "id": 16,
+                "nome": "Pagar cartão de Crédio",
+                "dataVencimento": "2026-09-10",
+                "valor": 10000.00,
+                "descricao": "Fatura do cartão de crédito",
+                "categoria": {
+                    "id": 44,
+                    "nome": "Nubank"
+                },
+                "prioridade": {
+                    "id": 16,
+                    "nome": "Urgente",
+                    "cor": "#d10000"
+                }
+            },
+            {
+                "id": 17,
+                "nome": "Sair com a belle",
+                "dataVencimento": "2026-09-12",
+                "valor": 1.00,
+                "descricao": "Sair com a minha bb",
+                "categoria": {
+                    "id": 41,
+                    "nome": "Cartão de Débitos"
+                },
+                "prioridade": {
+                    "id": 16,
+                    "nome": "Urgente",
+                    "cor": "#d10000"
+                }
+            },
+            {
+                "id": 18,
+                "nome": "teste",
+                "dataVencimento": "2026-09-12",
+                "valor": 8000.00,
+                "descricao": "teste",
+                "categoria": {
+                    "id": 41,
+                    "nome": "Cartão de Débitos"
+                },
+                "prioridade": {
+                    "id": 17,
+                    "nome": "Importante",
+                    "cor": "#5696f5"
+                }
+            },
+            {
+                "id": 19,
+                "nome": "teste",
+                "dataVencimento": "2026-09-18",
+                "valor": 10000.00,
+                "descricao": "teste",
+                "categoria": {
+                    "id": 43,
+                    "nome": "Renner"
+                },
+                "prioridade": {
+                    "id": 17,
+                    "nome": "Importante",
+                    "cor": "#5696f5"
+                }
+            },
+            {
+                "id": 20,
+                "nome": "teste",
+                "dataVencimento": "2026-09-09",
+                "valor": 10000.00,
+                "descricao": "tsts",
+                "categoria": {
+                    "id": 41,
+                    "nome": "Cartão de Débitos"
+                },
+                "prioridade": {
+                    "id": 14,
+                    "nome": "Atenção",
+                    "cor": "#ebb800"
+                }
+            },
+            {
+                "id": 21,
+                "nome": "Streming em Geral",
+                "dataVencimento": "2026-09-10",
+                "valor": 28000.00,
+                "descricao": "Teste",
+                "categoria": {
+                    "id": 42,
+                    "nome": "Fatura de streming"
+                },
+                "prioridade": {
+                    "id": 17,
+                    "nome": "Importante",
+                    "cor": "#5696f5"
+                }
+            },
+            {
+                "id": 22,
+                "nome": "Teste",
+                "dataVencimento": "2026-09-10",
+                "valor": 288.00,
+                "descricao": "Teste",
+                "categoria": {
+                    "id": 43,
+                    "nome": "Renner"
+                },
+                "prioridade": {
+                    "id": 16,
+                    "nome": "Urgente",
+                    "cor": "#d10000"
+                }
+            },
+            {
+                "id": 23,
+                "nome": "testeeeeeeee",
+                "dataVencimento": "2026-09-10",
+                "valor": 28800.00,
+                "descricao": "teste",
+                "categoria": {
+                    "id": 43,
+                    "nome": "Renner"
+                },
+                "prioridade": {
+                    "id": 14,
+                    "nome": "Atenção",
+                    "cor": "#ebb800"
+                }
+            },
+            {
+                "id": 24,
+                "nome": "teste",
+                "dataVencimento": "2026-09-10",
+                "valor": 28800.00,
+                "descricao": "teste",
+                "categoria": {
+                    "id": 43,
+                    "nome": "Renner"
+                },
+                "prioridade": {
+                    "id": 14,
+                    "nome": "Atenção",
+                    "cor": "#ebb800"
+                }
+            },
+            {
+                "id": 25,
+                "nome": "Sair com a belle hoje",
+                "dataVencimento": "2026-09-10",
+                "valor": 288.00,
+                "descricao": "Desc",
+                "categoria": {
+                    "id": 41,
+                    "nome": "Cartão de Débitos"
+                },
+                "prioridade": {
+                    "id": 14,
+                    "nome": "Atenção",
+                    "cor": "#ebb800"
+                }
+            }
+        ],
+        "empty": false,
+        "first": true,
+        "last": false,
+        "number": 0,
+        "numberOfElements": 10,
+        "pageable": {
+            "offset": 0,
+            "pageNumber": 0,
+            "pageSize": 10,
+            "paged": true,
+            "sort": {
+                "empty": true,
+                "sorted": false,
+                "unsorted": true
+            },
+            "unpaged": false
+        },
+        "size": 10,
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "totalElements": 14,
+        "totalPages": 2
+    },
+    "mensagem": "Despesas buscadas com sucesso",
+    "status": true
+}

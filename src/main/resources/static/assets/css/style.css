@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('/assets/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Inter';
+}
+
+.bg-control-finance{background-color: #f0f1f3;}
+
+.main{
+    min-height: 100vh;
+    width: 100%;
+}
+
+.login-section{
+    width: 1000px;
+    min-height: 600px;
+}
+
+.valor_despesas{
+    font-size: 50px;
+}
+
+.login-main {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+}
+
+.login-form-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background-color: #fff;
+}
+
+.login-form-content {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-image-side {
+    flex: 1;
+    background: linear-gradient(160deg, #1a1a1a 0%, #2d2d2d 100%);
+    align-items: flex-end;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-quote {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.5;
+    max-width: 420px;
+}
+
+.login-image-side {
+    padding: 0; 
+}
+
+.login-image-overlay {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.img-login {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block; 
+    height: 100vh;
+}
+
+.card-dashboard{
+    background: url('/assets/img/card-ui-dashbord-img.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+.form-control:focus {
+    border-color: #000;
+    box-shadow: 0 0 0 0.10rem rgba(0, 0, 0, 0.10);
+}
+
+.form-select:focus{
+    border-color: #000;
+    box-shadow: 0 0 0 0.10rem rgba(0, 0, 0, 0.10);
+}
+
+.list-group-item.active {
+    z-index: 2;
+    color: var(--bs-list-group-active-color);
+    background-color: #181818;
+    border-color: var(--bs-list-group-active-border-color);
+}
+
+.font-control-finance-12px{
+    font-size: 12px;
+}
+
+.font-control-finance-14px{
+    font-size: 14px;
+}
+
+.font-control-finance-16px{
+    font-size: 16px;
+}
+
+.botao_pagina.ativo {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+.usuario_logotico{
+    width: 35px;
+    height: 35px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+}
+
+.siglas_usuario{
+    font-size: 14px;
+}
+
+.icone-card {
+    font-size: 12px;
+    margin-left: 6px;
+    background-color: #f0f1f3;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.botao-editar-despesa:hover .icone-card {
+    background-color: #2f82ff;
+    color: white;
+}
+
+.botao-remover-despesa:hover .icone-card {
+    background-color: rgb(252, 72, 72);
+    color: white;
+}
+
+.nome-despesas{
+	width: 250px;                
+  	white-space: nowrap;          
+ 	overflow: hidden;          
+  	text-overflow: ellipsis;     
+}
+
+.nome-categoria {
+    width: fit-content;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #f2f3f5;
+	border-radius: 4px;
+	font-weight: bold;	
+	padding: 0px 4px;
+}
+

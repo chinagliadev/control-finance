@@ -18,39 +18,74 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-
     private final TokenConfig tokenConfig;
     private final UserDetailsService userDetailsService;
- 
-    public JwtAuthFilter(TokenConfig tokenConfig, UserDetailsService userDetailsService) {
+
+    public JwtAuthFilter(
+            TokenConfig tokenConfig,
+            UserDetailsService userDetailsService) {
+
         this.tokenConfig = tokenConfig;
         this.userDetailsService = userDetailsService;
     }
- 
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                     FilterChain filterChain) throws ServletException, IOException {
- 
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+
+        String path = request.getServletPath();
+
+        return path.equals("/")
+                || path.equals("/index.html")
+                || path.equals("/login.html")
+                || path.equals("/cadastro.html")
+                || path.equals("/favicon.ico")
+                || path.startsWith("/assets/")
+                || path.startsWith("/modulos/")
+                || path.equals("/auth/login")
+                || path.equals("/auth/registrar");
+    }
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
+            throws ServletException, IOException {
+
         String token = extrairTokenDoCookie(request);
- 
+
         if (token != null) {
+
             String email = tokenConfig.validateToken(token);
+
             if (email != null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                var authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                UserDetails userDetails =
+                        userDetailsService.loadUserByUsername(email);
+
+                var authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(authentication);
             }
         }
- 
+
         filterChain.doFilter(request, response);
     }
- 
-    private String extrairTokenDoCookie(HttpServletRequest request) {
+
+    private String extrairTokenDoCookie(
+            HttpServletRequest request) {
+
         if (request.getCookies() == null) {
             return null;
         }
- 
+
         return Arrays.stream(request.getCookies())
                 .filter(c -> "token".equals(c.getName()))
                 .map(Cookie::getValue)

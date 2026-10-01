@@ -22,7 +22,6 @@ public record DespesaRequest(
 		@Positive(message = "O valor da despesa deve ser maior que zero")
 		BigDecimal valor,
 
-		@NotBlank(message = "Informe a descrição da despesa")
 		String descricao,
 
 		@NotNull(message = "Informe se a despesa está a pagar")

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Control Finance - Categorias</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body class="bg-light">
+
+    <header class="mb-3">
+
+        <nav class="navbar bg-dark p-3 text-white">
+            <div class="container d-flex align-items-center justify-content-between">
+                <span class="logo fw-bold fs-4">Control Finance</span>
+
+                <div class="d-flex align-items-center justify-content-center gap-3">
+                    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuModulos"
+                        aria-controls="menuLateralModulos">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                </div>
+
+            </div>
+        </nav>
+
+    </header>
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-5">
+                <div class="card shadow-md p-2 rounded-3 border mb-3">
+                    <div class="card-header bg-white border-0 ">
+                        <h4 class="mb-0 fs-5">
+                            Categorias
+                        </h4>
+
+                        <small class="text-secondary">
+                            Cadastre e gerencie as categorias das suas despesas.
+                        </small>
+
+                        <hr>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formCategoria" class="needs-validation" novalidate> 
+
+                            <label for="txtCategoria" class="form-label font">Categoria</label> 
+                            <input type="text" class="form-control form-control-sm" id="txtCategoria" autocomplete="off" placeholder="Ex.: Alimentação, Transporte, Lazer..." minlength="3" required>
+
+                            <div class="invalid-feedback">Informe o nome da categoria.</div> 
+                            
+                            <button type="submit" class="btn btn-dark btn-sm w-100 mt-2" id="btn-categoria">Adicionar</button>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle mb-0" id="tabela_categoria">
+
+                                <thead>
+                                    <tr>
+                                        <th>Categoria</th>
+                                        <th class="text-end">Ações</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <div class="modal fade" id="modalEditarCategoria" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Editar categoria
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="formEditarCategoria" class="needs-validation" novalidate>
+
+                        <label for="txtEditarCategoria" class="form-label">
+                            Categoria
+                        </label>
+
+                        <input type="text" class="form-control form-control-sm" id="txtEditarCategoria" minlength="3" required>
+
+                        <div class="invalid-feedback">
+                            Informe o nome da categoria.
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" form="formEditarCategoria" class="btn btn-primary btn-sm">
+                        Salvar alterações
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="modalRemoverCategoria" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Remover categoria
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p class="mb-0">
+                        Tem certeza que deseja remover a categoria
+                        <strong id="nomeCategoriaRemover"></strong>?
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-sm" id="btnConfirmarRemocao">
+                        Remover
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="areaToast" class="toast-container position-fixed bottom-0 end-0 p-3">
+    </div>
+
+    <div class="offcanvas offcanvas-start " tabindex="-1" id="menuModulos" aria-labelledby="menuModulosLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="menuModulosLabel">Control Finance</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            <input type="text" class="form-control form-control-sm" placeholder="Categoria, Prioridade..." id="pesquisarModulo">
+
+            <hr>
+
+            <h6 class="m-0 text-secondary mb-3 font-control-finance-14px"><i class="bi bi-three-dots-vertical"></i> Modulos</h6>
+
+            <div class="list-group font-control-finance-14px">
+                <ul class="p-0" id="lista-itens-modulo">
+                    <a href="/home.html" class="list-group-item list-group-item-action border-0 rounded-3">
+                        <i class="bi bi-house"></i>
+                        Home</a>
+                    <a href="categoria.html" class="list-group-item list-group-item-action border-0 rounded-3 active">
+                         <i class="bi bi-tags"></i>
+                        Categoria</a>
+                </ul>
+            </div>
+        </div>
+
+         <div class="offcanvas-footer bg-dark p-3 d-flex align-items-center justify-content-between">
+            <div class="offcanvas-footer-perfil d-flex align-items-center justify-content-between gap-2">
+                <div class="usuario_logotico">
+                    <h2 class="m-0 siglas_usuario"></h2>
+                </div>
+                <div class="usuario_title">
+                    <p class="text-white m-0 nome_usuario font-control-finance-14px"></p>
+                    <p class="text-secondary m-0 email_usuario font-control-finance-14px"></p>
+                </div>
+            </div>
+
+            <button class="btn btn-dark btn-md btnSair"><i class="bi bi-box-arrow-right"></i></button>
+        </div>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="/assets/js/home.js"></script>
+
+</body>
+
+</html>
