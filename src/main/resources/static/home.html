@@ -129,6 +129,8 @@
                             </p>
 
                         </div>
+						
+						<button class="btn btn-light btn-sm border"  data-bs-toggle="modal" data-bs-target="#modalExportar"><i class="bi bi-file-text"></i> Exportar</button>
 
                     </div>
 
@@ -684,6 +686,56 @@
                     </button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+	
+	<div class="modal fade" id="modalExportar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+				<div class="modal-header gap-2">
+					<p class="m-0">
+						Exportar Despesas
+                    </p>
+				</div>
+                <div class="modal-body">
+					<form id="formExportacao" novalidate>
+
+                       <label for="slc_exportacao" class="form-label">
+                           Tipo da exportação
+                       </label>
+
+                       <div class="input-group input-group-sm">
+
+						<select class="form-select" id="slc_exportacao" required>
+						    <option value="">
+						        Selecione uma exportação...
+						    </option>
+
+						    <option value="excel">
+						        Excel
+						    </option>
+
+						    <option value="relatorio">
+						        Relatório
+						    </option>
+						</select>
+						
+						<div class="invalid-feedback">
+                            Informe um tipo de exportação.
+                        </div>
+						
+                       </div>
+
+                       <div class="border-top mt-3 pt-3 d-flex justify-content-end gap-2">
+                           <button type="submit" id="btnExportar" class="btn btn-success btn-sm">
+                               Sim, exportar
+                           </button>
+
+                       </div>
+
+                   </form>
+                </div>
             </div>
         </div>
     </div>

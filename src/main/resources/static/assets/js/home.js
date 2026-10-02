@@ -116,6 +116,26 @@ $(function () {
 
         await editarDespesa($form);
     });
+	
+	$("#formExportacao").on("submit", function(event)
+	{
+		event.preventDefault();
+		
+		event.preventDefault();
+        event.stopPropagation();
+
+        const form = this;
+        const $form = $(form);
+
+        $form.addClass('was-validated');
+
+        if (form.checkValidity() === false) {
+            return;
+        }
+		
+		let tipoExportacao = $("#slc_exportacao").val();
+		gerenciarExportacaoDespesas(tipoExportacao);
+	})
 
     $('#aPagar').on('change', function () {
         configurarCamposPagamento();
@@ -1523,6 +1543,20 @@ async function logout() {
             'Opss, houve um erro ao sair da conta'
         );
     }
+}
+
+function gerenciarExportacaoDespesas(tipoExportacao)
+{
+	if(!tipoExportacao){return;};
+	
+	if(tipoExportacao === 'excel')
+	{
+		//TODO excel
+	}
+	else
+	{
+		//TODO relatorio
+	}
 }
 
 function renderizarCardDespesas(despesas) {
