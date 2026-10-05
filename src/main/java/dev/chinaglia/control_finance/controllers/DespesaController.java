@@ -83,4 +83,6 @@ public class DespesaController {
     public ResponseEntity<ApiResponse<List<TotalDespesaCategoriaResponse>>> totalDespesaCategoriaResponse(@RequestParam(value = "mes", required = false) Integer mes) {
         return ResponseEntity.ok(ResponseUtil.sucesso(despesaService.totalDespesaCategoriaResponse(mes), "Total de despesas calculado com sucesso", "/despesas/total"));
     }
+    
+    
 }

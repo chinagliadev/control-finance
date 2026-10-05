@@ -1,0 +1,206 @@
+<!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
+<jasperReport name="ControleFinanceiroRelatorio" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="25261611-0ee7-4979-8fff-60a9741598f1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL Connection"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="totalDespesas" class="java.math.BigDecimal"/>
+	<parameter name="mesDespesa" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[]]></query>
+	<field name="data" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="data_vencimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_vencimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_despesas"/>
+	</field>
+	<field name="quantidade_parcelada" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="quantidade_parcela"/>
+		<property name="com.jaspersoft.studio.field.label" value="quantidade_parcela"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_despesas"/>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="valor"/>
+		<property name="com.jaspersoft.studio.field.label" value="valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_despesas"/>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_despesas"/>
+	</field>
+	<field name="categoria" class="java.lang.String"/>
+	<field name="dataRef" class="java.time.LocalDate"/>
+	<field name="situacao" class="java.lang.String"/>
+	<background splitType="Stretch"/>
+	<title height="59" splitType="Stretch">
+		<element kind="staticText" uuid="219db61f-7381-472e-a4f3-c35161a2d172" x="0" y="0" width="398" height="39" fontSize="29.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[CONTROLE FINANCEIRO]]></text>
+		</element>
+		<element kind="staticText" uuid="05bc2010-7c19-4b32-8463-cfc6e3044de0" x="0" y="40" width="399" height="19" forecolor="#454545" fontSize="8.0" bold="false" hTextAlign="Left" vTextAlign="Middle">
+			<box leftPadding="2" rightPadding="2"/>
+			<text><![CDATA[Uma solução simples e intuitiva para organizar, acompanhar e gerenciar suas finanças pessoais.]]></text>
+		</element>
+	</title>
+	<pageHeader height="26" splitType="Stretch">
+		<element kind="rectangle" uuid="20fdcf36-1eda-4835-9cf4-a72c16fa4b0c" x="310" y="6" width="40" height="15" backcolor="#333333"/>
+		<element kind="rectangle" uuid="e6721dab-3b9b-4588-834e-a96af9119ed3" x="0" y="6" width="80" height="15" backcolor="#333333"/>
+		<element kind="staticText" uuid="ec8cd126-eab6-4af9-ad1d-7b6dbb350ed1" x="0" y="6" width="80" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<box leftPadding="2" rightPadding="2"/>
+			<text><![CDATA[Nome]]></text>
+		</element>
+		<element kind="rectangle" uuid="c8166055-a202-4dc8-adfd-b1d771ba21ec" x="440" y="6" width="40" height="15" backcolor="#333333"/>
+		<element kind="staticText" uuid="56f0c2e8-be51-434d-8803-ea05a422a4d4" x="440" y="6" width="40" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<box leftPadding="2" rightPadding="2"/>
+			<text><![CDATA[Total ]]></text>
+		</element>
+		<element kind="textField" uuid="2b1df1f0-0186-43fc-960c-499e62674aeb" x="80" y="6" width="230" height="15" fontSize="8.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle">
+			<box leftPadding="4" rightPadding="2">
+				<pen lineWidth="0.5"/>
+			</box>
+			<expression><![CDATA[$P{usuario}]]></expression>
+		</element>
+		<element kind="textField" uuid="40a15a45-d63a-4616-bd06-c3c2995c68eb" x="480" y="6" width="75" height="15" fontSize="8.0" textAdjust="StretchHeight" hTextAlign="Right" vTextAlign="Middle">
+			<box leftPadding="2" rightPadding="2">
+				<pen lineWidth="0.5"/>
+			</box>
+			<expression><![CDATA[$P{totalDespesas}]]></expression>
+		</element>
+		<element kind="staticText" uuid="cfe86f7d-33e7-418d-8860-9d57815cfd26" x="310" y="6" width="40" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<box leftPadding="2" rightPadding="2"/>
+			<text><![CDATA[Mês]]></text>
+		</element>
+		<element kind="textField" uuid="dca1c765-014a-44a1-9e9d-f5ba4b485687" x="350" y="6" width="90" height="15" fontSize="8.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle">
+			<box leftPadding="3" rightPadding="2">
+				<pen lineWidth="0.5"/>
+			</box>
+			<expression><![CDATA[$P{mesDespesa}]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="21" splitType="Stretch">
+		<element kind="rectangle" uuid="b9149060-bfa8-4dc9-b01d-055cdfff8e99" x="0" y="6" width="555" height="15" backcolor="#333333"/>
+		<element kind="staticText" uuid="f1058315-4ba8-471b-b61f-ae8d417c11c1" x="0" y="6" width="160" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="40d91ac4-12da-4cbd-a44f-21dfcc9e24da"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<box leftPadding="2" rightPadding="2">
+				<pen lineWidth="0.0"/>
+			</box>
+			<text><![CDATA[Despesa]]></text>
+		</element>
+		<element kind="staticText" uuid="add22eed-e7b8-4569-97af-b840a8bf1faf" x="400" y="6" width="85" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75cfea2c-8912-42cc-a558-a429b895d42b"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<box leftPadding="2" rightPadding="2">
+				<pen lineWidth="0.0"/>
+			</box>
+			<text><![CDATA[Vencimento]]></text>
+		</element>
+		<element kind="staticText" uuid="92296cba-7c07-418e-bed7-f8759c38d2fe" x="330" y="6" width="70" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f83a666c-cbe0-4ffc-b2f8-cdafc51d4290"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<box leftPadding="2" rightPadding="2">
+				<pen lineWidth="0.0"/>
+			</box>
+			<text><![CDATA[Parcelas]]></text>
+		</element>
+		<element kind="staticText" uuid="f354ba76-6571-442a-a659-8d66ee6a93be" x="240" y="6" width="90" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ebade726-8b67-4d79-8e21-01f2ec45a702"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<box leftPadding="2" rightPadding="2">
+				<pen lineWidth="0.0"/>
+			</box>
+			<text><![CDATA[Valor]]></text>
+		</element>
+		<element kind="staticText" uuid="a595de5e-d629-4566-ad80-5bdcace2fef8" x="160" y="6" width="80" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b7e9863b-6ee1-4dc0-b088-66f3139c01fb"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<box leftPadding="2" rightPadding="2">
+				<pen lineWidth="0.0"/>
+			</box>
+			<text><![CDATA[Categoria]]></text>
+		</element>
+		<element kind="staticText" uuid="b123765c-9a20-4e06-8859-e7d04f012aa7" x="485" y="6" width="70" height="15" forecolor="#FFFFFF" fontSize="8.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f83a666c-cbe0-4ffc-b2f8-cdafc51d4290"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<box leftPadding="2" rightPadding="2">
+				<pen lineWidth="0.0"/>
+			</box>
+			<text><![CDATA[Situação]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<element kind="rectangle" uuid="2f3b3c5e-3ddf-4982-ba72-883435596963" x="0" y="0" width="555" height="15" backcolor="#D9D9D9">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<printWhenExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></printWhenExpression>
+				<pen lineWidth="0.0" lineStyle="Solid"/>
+			</element>
+			<element kind="textField" uuid="37699c8a-96c6-4698-a092-54c43ef2d339" x="400" y="0" width="85" height="15" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75cfea2c-8912-42cc-a558-a429b895d42b"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.2"/>
+				</box>
+				<expression><![CDATA[$F{data}]]></expression>
+			</element>
+			<element kind="textField" uuid="f076a89a-d791-4c3d-b0ec-499a12b86b05" x="330" y="0" width="70" height="15" fontSize="8.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle">
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f83a666c-cbe0-4ffc-b2f8-cdafc51d4290"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.2"/>
+				</box>
+				<expression><![CDATA[$F{quantidade_parcelada}]]></expression>
+			</element>
+			<element kind="textField" uuid="d3f7a234-78d8-4694-b709-cb2b03af5b73" x="240" y="0" width="90" height="15" fontSize="8.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle">
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ebade726-8b67-4d79-8e21-01f2ec45a702"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.2"/>
+				</box>
+				<expression><![CDATA[$F{valor}]]></expression>
+			</element>
+			<element kind="textField" uuid="3322f307-f456-4d2f-b443-56769e5803a1" x="160" y="0" width="80" height="15" fontSize="8.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle">
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b7e9863b-6ee1-4dc0-b088-66f3139c01fb"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.2"/>
+				</box>
+				<expression><![CDATA[$F{categoria}]]></expression>
+			</element>
+			<element kind="textField" uuid="007f1f97-ea46-4113-aedf-a7aec5cb761a" x="0" y="0" width="160" height="15" fontSize="8.0" textAdjust="StretchHeight" hTextAlign="Left" vTextAlign="Middle">
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="40d91ac4-12da-4cbd-a44f-21dfcc9e24da"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.2"/>
+				</box>
+				<expression><![CDATA[$F{nome}]]></expression>
+			</element>
+			<element kind="textField" uuid="5a9b4c66-37f6-45b5-ac95-3dfdce560a51" x="485" y="0" width="70" height="15" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75cfea2c-8912-42cc-a558-a429b895d42b"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.2"/>
+				</box>
+				<expression><![CDATA[$F{situacao}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="19" splitType="Stretch">
+		<element kind="staticText" uuid="e09e3a80-8a73-428b-820e-98bcc13b2ccb" x="80" y="0" width="400" height="19" fontSize="8.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[© 2026 Chinaglia Dev — Controle Financeiro. Todos os direitos reservados.
+]]></text>
+		</element>
+	</columnFooter>
+	<pageFooter height="30" splitType="Stretch">
+		<element kind="textField" uuid="b020d667-88a9-4b16-990a-3a12d9dfc518" x="0" y="0" width="220" height="30" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.text.SimpleDateFormat(
+    "d 'de' MMMM 'de' yyyy",
+    new java.util.Locale("pt", "BR")
+).format(new java.util.Date())]]></expression>
+		</element>
+		<element kind="textField" uuid="3d4ec103-c7c5-4893-8699-6f8f88c29967" x="488" y="0" width="68" height="30" evaluationTime="Report" hTextAlign="Left">
+			<expression><![CDATA[" de " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="d6a9cfb1-a3c2-4817-8e1a-a9a566d40fcb" x="420" y="0" width="68" height="30" hTextAlign="Right">
+			<expression><![CDATA["Página  " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="48" splitType="Stretch"/>
+</jasperReport>

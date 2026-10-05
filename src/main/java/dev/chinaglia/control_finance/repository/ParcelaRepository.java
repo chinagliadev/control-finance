@@ -13,14 +13,9 @@ import dev.chinaglia.control_finance.entitdades.Parcela;
 @Repository
 public interface ParcelaRepository extends JpaRepository<Parcela, Long> {
 
-    List<Parcela> findByDespesaId(
-            Long despesaId
-    );
+    List<Parcela> findByDespesaId(Long despesaId);
 
-    Optional<Parcela> findByDespesaIdAndNumeroParcela(
-            Long despesaId,
-            Integer numeroParcela
-    );
+    Optional<Parcela> findByDespesaIdAndNumeroParcela(Long despesaId, Integer numeroParcela);
 
     @Query("""
             SELECT p
@@ -30,9 +25,7 @@ public interface ParcelaRepository extends JpaRepository<Parcela, Long> {
               AND d.status = true
               AND p.status = true
             """)
-    List<Parcela> buscarPorUsuario(
-            @Param("usuarioId") Long usuarioId
-    );
+    List<Parcela> buscarPorUsuario(@Param("usuarioId") Long usuarioId);
 
     @Query("""
             SELECT p
@@ -41,7 +34,10 @@ public interface ParcelaRepository extends JpaRepository<Parcela, Long> {
             WHERE d.usuario.id = :usuarioId
               AND d.status = true
               AND p.status = true
-              AND MONTH(p.dataVencimento) = :mes
+              AND (
+                  :mes IS NULL
+                  OR MONTH(p.dataVencimento) = :mes
+              )
             """)
     List<Parcela> buscarPorUsuarioEMes(
             @Param("usuarioId") Long usuarioId,

@@ -690,55 +690,125 @@
         </div>
     </div>
 	
-	<div class="modal fade" id="modalExportar" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-				<div class="modal-header gap-2">
-					<p class="m-0">
-						Exportar Despesas
-                    </p>
-				</div>
-                <div class="modal-body">
-					<form id="formExportacao" novalidate>
+	<div class="modal fade" id="modalExportar" tabindex="-1" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false">
+	    <div class="modal-dialog modal-dialog-centered">
+	        <div class="modal-content">
 
-                       <label for="slc_exportacao" class="form-label">
-                           Tipo da exportação
-                       </label>
+	            <div class="modal-header gap-2">
+	                <p class="m-0">
+	                    Exportar Despesas
+	                </p>
+	            </div>
 
-                       <div class="input-group input-group-sm">
+	            <div class="modal-body">
 
-						<select class="form-select" id="slc_exportacao" required>
-						    <option value="">
-						        Selecione uma exportação...
-						    </option>
+	                <form id="formExportacao" novalidate>
 
-						    <option value="excel">
-						        Excel
-						    </option>
+	                    <label for="slc_exportacao" class="form-label">
+	                        Tipo da exportação
+	                    </label>
 
-						    <option value="relatorio">
-						        Relatório
-						    </option>
-						</select>
-						
-						<div class="invalid-feedback">
-                            Informe um tipo de exportação.
-                        </div>
-						
-                       </div>
+	                    <div class="input-group input-group-sm mb-3">
 
-                       <div class="border-top mt-3 pt-3 d-flex justify-content-end gap-2">
-                           <button type="submit" id="btnExportar" class="btn btn-success btn-sm">
-                               Sim, exportar
-                           </button>
+	                        <select class="form-select" id="slc_exportacao" required>
+	                            <option value="">
+	                                Selecione uma exportação...
+	                            </option>
 
-                       </div>
+	                            <option value="relatorio">
+	                                Relatório
+	                            </option>
+	                        </select>
 
-                   </form>
-                </div>
-            </div>
-        </div>
-    </div>
+	                        <div class="invalid-feedback">
+	                            Informe um tipo de exportação.
+	                        </div>
+
+	                    </div>
+
+	                    <label for="slc_mes_exportacao" class="form-label">
+	                        Mês
+	                    </label>
+
+	                    <div class="input-group input-group-sm">
+
+	                        <select class="form-select" id="slc_mes_exportacao">
+
+	                            <option value="">
+	                                Todos os meses
+	                            </option>
+
+	                            <option value="1">
+	                                Janeiro
+	                            </option>
+
+	                            <option value="2">
+	                                Fevereiro
+	                            </option>
+
+	                            <option value="3">
+	                                Março
+	                            </option>
+
+	                            <option value="4">
+	                                Abril
+	                            </option>
+
+	                            <option value="5">
+	                                Maio
+	                            </option>
+
+	                            <option value="6">
+	                                Junho
+	                            </option>
+
+	                            <option value="7">
+	                                Julho
+	                            </option>
+
+	                            <option value="8">
+	                                Agosto
+	                            </option>
+
+	                            <option value="9">
+	                                Setembro
+	                            </option>
+
+	                            <option value="10">
+	                                Outubro
+	                            </option>
+
+	                            <option value="11">
+	                                Novembro
+	                            </option>
+
+	                            <option value="12">
+	                                Dezembro
+	                            </option>
+
+	                        </select>
+
+	                    </div>
+
+	                    <div class="border-top mt-3 pt-3 d-flex justify-content-end gap-2">
+							
+							<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+							    Cancelar
+							</button>
+							
+	                        <button type="submit" id="btnExportar" class="btn btn-dark btn-sm">
+	                            Sim, exportar
+	                        </button>
+
+	                    </div>
+
+	                </form>
+
+	            </div>
+
+	        </div>
+	    </div>
+	</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">

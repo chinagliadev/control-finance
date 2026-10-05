@@ -134,7 +134,8 @@ $(function () {
         }
 		
 		let tipoExportacao = $("#slc_exportacao").val();
-		gerenciarExportacaoDespesas(tipoExportacao);
+		let mes = $("#slc_mes_exportacao").val();
+		gerenciarExportacaoDespesas(tipoExportacao, mes, $form);
 	})
 
     $('#aPagar').on('change', function () {
@@ -1030,8 +1031,6 @@ async function buscarDespesas(page = 0, size = 6) {
 
         const resposta = await response.json();
 
-        console.log("Despesas retornadas:", resposta.dados.content);
-
         if (resposta.dados) {
 
             $("#qtd_despesa").text(resposta.dados.totalElements || 0);
@@ -1545,18 +1544,59 @@ async function logout() {
     }
 }
 
-function gerenciarExportacaoDespesas(tipoExportacao)
+function gerenciarExportacaoDespesas(tipoExportacao, mes, $form)
 {
 	if(!tipoExportacao){return;};
 	
 	if(tipoExportacao === 'excel')
 	{
-		//TODO excel
+		return;
 	}
 	else
 	{
-		//TODO relatorio
+		gerarRelatorioPDF(tipoExportacao, mes, $form)
 	}
+}
+
+async function gerarRelatorioPDF(tipoExportacao, mes, $form) {
+
+    if (!tipoExportacao || !$form) {
+        return;
+    }
+
+    let url = `${BASEURL}/relatorio/despesas`;
+
+    if (mes) {
+        url += `?mes=${mes}`;
+    }
+
+    const response = await fetch(url);
+
+    if (!response.ok) 
+	{
+		if(response.status === 404)
+		{
+			alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaAviso, "Não existem despesas para o período selecionado");
+			return;
+		}
+		
+        alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaErro, "Ops, houve um erro ao gerar o relatório");
+        return;
+    }
+
+    const blob = await response.blob();
+
+    const urlArquivo = window.URL.createObjectURL(blob);
+
+    window.open(urlArquivo, '_blank');
+	
+	$form[0].reset();
+
+	const modal = bootstrap.Modal.getInstance(document.getElementById('modalExportar'));
+    modal.hide();
+	
+    $form.removeClass('was-validated');
+	
 }
 
 function renderizarCardDespesas(despesas) {
