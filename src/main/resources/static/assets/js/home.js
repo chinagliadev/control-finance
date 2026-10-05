@@ -23,6 +23,7 @@ $(function () {
     mesSelecionado = hoje.getMonth() + 1;
 
     $("#slc_mes").val(mesSelecionado);
+    $("#slc_mes_exportacao").val(mesSelecionado);
 
     $(".data_agora").text(obterNomeMes(mesSelecionado));
 
@@ -1550,7 +1551,7 @@ function gerenciarExportacaoDespesas(tipoExportacao, mes, $form)
 	
 	if(tipoExportacao === 'excel')
 	{
-		return;
+		gerarRelatorioEXCEL(tipoExportacao, mes, $form);
 	}
 	else
 	{
@@ -1597,6 +1598,59 @@ async function gerarRelatorioPDF(tipoExportacao, mes, $form) {
 	
     $form.removeClass('was-validated');
 	
+}
+
+async function gerarRelatorioEXCEL(tipoExportacao, mes, $form) {
+
+    if (!tipoExportacao || !$form) {
+        return;
+    }
+
+    let url = `${BASEURL}/relatorio/despesas/excel`;
+
+    if (mes) {
+        url += `?mes=${mes}`;
+    }
+
+    const response = await fetch(url, {
+        credentials: 'include'
+    });
+
+    if (!response.ok) {
+
+        if (response.status === 404) {
+            alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaAviso, "Não existem despesas para o período selecionado");
+            return;
+        }
+
+        alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaErro, "Ops, houve um erro ao gerar o relatório excel");
+        return;
+    }
+
+    const blob = await response.blob();
+
+    const urlArquivo = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+
+    link.href = urlArquivo;
+    link.download = 'controle-financeiro.xlsx';
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    window.URL.revokeObjectURL(urlArquivo);
+
+    $form[0].reset();
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById('modalExportar'));
+
+    modal.hide();
+
+    $form.removeClass('was-validated');
 }
 
 function renderizarCardDespesas(despesas) {

@@ -21,7 +21,7 @@ public class RelatorioController {
 	}
 
 	@GetMapping("/despesas")
-	public ResponseEntity<byte[]> despesas(@RequestParam(value ="mes", required = false) Integer mes) throws Exception {
+	public ResponseEntity<byte[]> despesas(@RequestParam(value = "mes", required = false) Integer mes) throws Exception {
 
 		byte[] pdf = despesaRelatorioService.gerarRelatorio(mes);
 
@@ -29,5 +29,16 @@ public class RelatorioController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=despesas.pdf")
 				.contentType(MediaType.APPLICATION_PDF)
 				.body(pdf);
+	}
+
+	@GetMapping("/despesas/excel")
+	public ResponseEntity<byte[]> excel(@RequestParam(value = "mes", required = false) Integer mes) throws Exception {
+
+		byte[] excel = despesaRelatorioService.gerarExcel(mes);
+
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=controle-financeiro.xlsx")
+				.contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+				.body(excel);
 	}
 }
