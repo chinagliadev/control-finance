@@ -84,15 +84,6 @@ public class DespesaService {
 
 			despesa.setQuantidadeParcela(request.quantidadeParcela());
 
-			/*
-			 * O valor informado pelo usuário representa o valor de cada parcela.
-			 *
-			 * Exemplo:
-			 * Valor: R$ 1.000,00
-			 * Parcelas: 10
-			 *
-			 * Valor total da despesa = R$ 10.000,00
-			 */
 			BigDecimal valorTotal = request.valor()
 					.multiply(BigDecimal.valueOf(request.quantidadeParcela()));
 
@@ -122,10 +113,6 @@ public class DespesaService {
 			throw new ControlFinanceException("Informe a data de vencimento");
 		}
 
-		/*
-		 * valorParcela é o valor que o usuário digitou (ex: R$ 1.000,00).
-		 * Cada parcela recebe exatamente esse valor, sem dividir o total.
-		 */
 		for (int numero = 1; numero <= despesa.getQuantidadeParcela(); numero++) {
 
 			Parcela parcela = new Parcela();
@@ -180,20 +167,12 @@ public class DespesaService {
 
 		despesa.setaPagar(Boolean.TRUE.equals(request.aPagar()));
 
-		/*
-		 * DESPESA NÃO PARCELADA
-		 */
 		if (!Boolean.TRUE.equals(request.parcelado())) {
 
 			despesa.setValor(request.valor());
 			despesa.setParcelado(false);
 			despesa.setQuantidadeParcela(null);
 
-			/*
-			 * Despesa sem parcelas não tem status de pagamento próprio.
-			 * Se o usuário marcou como paga, ela deixa de ser "a pagar"
-			 * e fica sem vencimento (o front exibe como "Paga").
-			 */
 			if (Boolean.TRUE.equals(request.parcelaPaga())) {
 				despesa.setaPagar(false);
 				despesa.setDataVencimento(null);
@@ -215,10 +194,6 @@ public class DespesaService {
 
 			return despesaMapper.toDespesaResponse(despesa);
 		}
-
-		/*
-		 * DESPESA PARCELADA
-		 */
 
 		Integer quantidadeNova = request.quantidadeParcela();
 
@@ -250,12 +225,6 @@ public class DespesaService {
 
 		despesa.setDataVencimento(dataPrimeiraParcela);
 
-		/*
-		 * O valor informado no update representa o valor de cada parcela.
-		 *
-		 * Exemplo:
-		 * R$ 1.000,00 x 10 parcelas = R$ 10.000,00
-		 */
 		BigDecimal valorTotal = request.valor()
 				.multiply(BigDecimal.valueOf(quantidadeNova));
 
@@ -269,13 +238,6 @@ public class DespesaService {
 				request.valor()
 		);
 
-		/*
-		 * Atualiza o status de pagamento da parcela que está sendo editada.
-		 *
-		 * Se a despesa acabou de virar parcelada (não tinha parcelas antes)
-		 * e o front não informou qual parcela, aplica na primeira,
-		 * igual ao comportamento do save.
-		 */
 		Parcela parcelaEditada = null;
 
 		Integer numeroParcela = request.numeroParcelaEditada();
@@ -334,12 +296,7 @@ public class DespesaService {
 			Integer quantidadeNova,
 			LocalDate dataPrimeiraParcela,
 			BigDecimal valorParcela) {
-
-		/*
-		 * valorParcela é o valor digitado pelo usuário (ex: R$ 1.000,00).
-		 * Todas as parcelas ficam com esse valor, independente da quantidade.
-		 * O total da despesa (valor x quantidade) fica só na despesa.
-		 */
+		
 		List<Parcela> parcelasParaRemover = parcelasExistentes.stream()
 				.filter(parcela -> parcela.getNumeroParcela() > quantidadeNova)
 				.toList();
