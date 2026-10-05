@@ -1,7 +1,6 @@
 package dev.chinaglia.control_finance.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -85,15 +84,6 @@ public class DespesaService {
 
 			despesa.setQuantidadeParcela(request.quantidadeParcela());
 
-			/*
-			 * O valor informado pelo usuário representa o valor de cada parcela.
-			 *
-			 * Exemplo:
-			 * Valor: R$ 1.000,00
-			 * Parcelas: 10
-			 *
-			 * Valor total da despesa = R$ 10.000,00
-			 */
 			BigDecimal valorTotal = request.valor()
 					.multiply(BigDecimal.valueOf(request.quantidadeParcela()));
 
@@ -107,13 +97,13 @@ public class DespesaService {
 		despesaRepository.save(despesa);
 
 		if (Boolean.TRUE.equals(despesa.getParcelado())) {
-			criarParcelas(despesa, Boolean.TRUE.equals(request.parcelaPaga()));
+			criarParcelas(despesa, request.valor(), Boolean.TRUE.equals(request.parcelaPaga()));
 		}
 
 		return despesaMapper.toDespesaResponse(despesa);
 	}
 
-	private void criarParcelas(Despesa despesa, boolean primeiraParcelaPaga) {
+	private void criarParcelas(Despesa despesa, BigDecimal valorParcela, boolean primeiraParcelaPaga) {
 
 		if (despesa.getQuantidadeParcela() == null || despesa.getQuantidadeParcela() <= 0) {
 			throw new ControlFinanceException("Quantidade de parcelas inválida");
@@ -122,18 +112,6 @@ public class DespesaService {
 		if (despesa.getDataVencimento() == null) {
 			throw new ControlFinanceException("Informe a data de vencimento");
 		}
-
-		/*
-		 * O valor da despesa representa o valor total.
-		 * Por isso, dividimos pelo número de parcelas para descobrir
-		 * o valor individual de cada parcela.
-		 */
-		BigDecimal valorParcela = despesa.getValor()
-				.divide(
-						BigDecimal.valueOf(despesa.getQuantidadeParcela()),
-						2,
-						RoundingMode.HALF_UP
-				);
 
 		for (int numero = 1; numero <= despesa.getQuantidadeParcela(); numero++) {
 
@@ -189,15 +167,18 @@ public class DespesaService {
 
 		despesa.setaPagar(Boolean.TRUE.equals(request.aPagar()));
 
-		/*
-		 * DESPESA NÃO PARCELADA
-		 */
 		if (!Boolean.TRUE.equals(request.parcelado())) {
 
 			despesa.setValor(request.valor());
 			despesa.setParcelado(false);
 			despesa.setQuantidadeParcela(null);
-			despesa.setDataVencimento(request.dataVencimento());
+
+			if (Boolean.TRUE.equals(request.parcelaPaga())) {
+				despesa.setaPagar(false);
+				despesa.setDataVencimento(null);
+			} else {
+				despesa.setDataVencimento(request.dataVencimento());
+			}
 
 			if (eraParcelado) {
 
@@ -213,10 +194,6 @@ public class DespesaService {
 
 			return despesaMapper.toDespesaResponse(despesa);
 		}
-
-		/*
-		 * DESPESA PARCELADA
-		 */
 
 		Integer quantidadeNova = request.quantidadeParcela();
 
@@ -248,12 +225,6 @@ public class DespesaService {
 
 		despesa.setDataVencimento(dataPrimeiraParcela);
 
-		/*
-		 * O valor informado no update representa o valor de cada parcela.
-		 *
-		 * Exemplo:
-		 * R$ 1.000,00 x 10 parcelas = R$ 10.000,00
-		 */
 		BigDecimal valorTotal = request.valor()
 				.multiply(BigDecimal.valueOf(quantidadeNova));
 
@@ -263,35 +234,39 @@ public class DespesaService {
 				despesa,
 				parcelasExistentes,
 				quantidadeNova,
-				dataPrimeiraParcela
+				dataPrimeiraParcela,
+				request.valor()
 		);
 
 		Parcela parcelaEditada = null;
 
-		if (request.numeroParcelaEditada() != null) {
+		Integer numeroParcela = request.numeroParcelaEditada();
 
-			Integer numeroParcela = request.numeroParcelaEditada();
+		if (numeroParcela == null && !eraParcelado) {
+			numeroParcela = 1;
+		}
 
-			if (numeroParcela <= quantidadeNova) {
+		if (numeroParcela != null && numeroParcela > 0 && numeroParcela <= quantidadeNova) {
 
-				parcelaEditada = parcelaRepository
-						.findByDespesaIdAndNumeroParcela(
-								despesa.getId(),
-								numeroParcela
-						)
-						.orElseThrow(() ->
-								new ControlFinanceException("Parcela informada não existe")
-						);
+			final Integer numero = numeroParcela;
 
-				boolean parcelaPaga = Boolean.TRUE.equals(request.parcelaPaga());
+			parcelaEditada = parcelaRepository
+					.findByDespesaIdAndNumeroParcela(
+							despesa.getId(),
+							numero
+					)
+					.orElseThrow(() ->
+							new ControlFinanceException("Parcela informada não existe")
+					);
 
-				parcelaEditada.setParcelaPaga(parcelaPaga);
-				parcelaEditada.setDataPagamento(
-						parcelaPaga ? LocalDate.now() : null
-				);
+			boolean parcelaPaga = Boolean.TRUE.equals(request.parcelaPaga());
 
-				parcelaRepository.save(parcelaEditada);
-			}
+			parcelaEditada.setParcelaPaga(parcelaPaga);
+			parcelaEditada.setDataPagamento(
+					parcelaPaga ? LocalDate.now() : null
+			);
+
+			parcelaRepository.save(parcelaEditada);
 		}
 
 		despesaRepository.save(despesa);
@@ -319,21 +294,9 @@ public class DespesaService {
 			Despesa despesa,
 			List<Parcela> parcelasExistentes,
 			Integer quantidadeNova,
-			LocalDate dataPrimeiraParcela) {
-
-		/*
-		 * A despesa possui o valor TOTAL.
-		 *
-		 * Exemplo:
-		 * R$ 10.000,00 / 10 = R$ 1.000,00 por parcela.
-		 */
-		BigDecimal valorParcela = despesa.getValor()
-				.divide(
-						BigDecimal.valueOf(quantidadeNova),
-						2,
-						RoundingMode.HALF_UP
-				);
-
+			LocalDate dataPrimeiraParcela,
+			BigDecimal valorParcela) {
+		
 		List<Parcela> parcelasParaRemover = parcelasExistentes.stream()
 				.filter(parcela -> parcela.getNumeroParcela() > quantidadeNova)
 				.toList();
@@ -527,34 +490,20 @@ public class DespesaService {
 
 	private Usuario getUsuarioAutenticado() {
 
-		Authentication authentication =
-				SecurityContextHolder
-						.getContext()
-						.getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		if (authentication == null
-				|| !authentication.isAuthenticated()) {
+		if (authentication == null || !authentication.isAuthenticated()) {
 
-			throw new RuntimeException(
-					"Usuário não autenticado"
-			);
+			throw new RuntimeException("Usuário não autenticado");
 		}
 
 		String email = authentication.getName();
 
 		if (email == null || email.isBlank()) {
 
-			throw new RuntimeException(
-					"Usuário autenticado não possui email"
-			);
+			throw new RuntimeException("Usuário autenticado não possui email");
 		}
 
-		return usuarioRepository
-				.findByEmail(email)
-				.orElseThrow(() ->
-						new UsuarioNaoEncontradoException(
-								"Usuário não encontrado"
-						)
-				);
+		return usuarioRepository.findByEmail(email).orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado"));
 	}
 }

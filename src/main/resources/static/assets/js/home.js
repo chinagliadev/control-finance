@@ -23,6 +23,7 @@ $(function () {
     mesSelecionado = hoje.getMonth() + 1;
 
     $("#slc_mes").val(mesSelecionado);
+    $("#slc_mes_exportacao").val(mesSelecionado);
 
     $(".data_agora").text(obterNomeMes(mesSelecionado));
 
@@ -116,6 +117,27 @@ $(function () {
 
         await editarDespesa($form);
     });
+	
+	$("#formExportacao").on("submit", function(event)
+	{
+		event.preventDefault();
+		
+		event.preventDefault();
+        event.stopPropagation();
+
+        const form = this;
+        const $form = $(form);
+
+        $form.addClass('was-validated');
+
+        if (form.checkValidity() === false) {
+            return;
+        }
+		
+		let tipoExportacao = $("#slc_exportacao").val();
+		let mes = $("#slc_mes_exportacao").val();
+		gerenciarExportacaoDespesas(tipoExportacao, mes, $form);
+	})
 
     $('#aPagar').on('change', function () {
         configurarCamposPagamento();
@@ -1010,8 +1032,6 @@ async function buscarDespesas(page = 0, size = 6) {
 
         const resposta = await response.json();
 
-        console.log("Despesas retornadas:", resposta.dados.content);
-
         if (resposta.dados) {
 
             $("#qtd_despesa").text(resposta.dados.totalElements || 0);
@@ -1523,6 +1543,114 @@ async function logout() {
             'Opss, houve um erro ao sair da conta'
         );
     }
+}
+
+function gerenciarExportacaoDespesas(tipoExportacao, mes, $form)
+{
+	if(!tipoExportacao){return;};
+	
+	if(tipoExportacao === 'excel')
+	{
+		gerarRelatorioEXCEL(tipoExportacao, mes, $form);
+	}
+	else
+	{
+		gerarRelatorioPDF(tipoExportacao, mes, $form)
+	}
+}
+
+async function gerarRelatorioPDF(tipoExportacao, mes, $form) {
+
+    if (!tipoExportacao || !$form) {
+        return;
+    }
+
+    let url = `${BASEURL}/relatorio/despesas`;
+
+    if (mes) {
+        url += `?mes=${mes}`;
+    }
+
+    const response = await fetch(url);
+
+    if (!response.ok) 
+	{
+		if(response.status === 404)
+		{
+			alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaAviso, "Não existem despesas para o período selecionado");
+			return;
+		}
+		
+        alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaErro, "Ops, houve um erro ao gerar o relatório");
+        return;
+    }
+
+    const blob = await response.blob();
+
+    const urlArquivo = window.URL.createObjectURL(blob);
+
+    window.open(urlArquivo, '_blank');
+	
+	$form[0].reset();
+
+	const modal = bootstrap.Modal.getInstance(document.getElementById('modalExportar'));
+    modal.hide();
+	
+    $form.removeClass('was-validated');
+	
+}
+
+async function gerarRelatorioEXCEL(tipoExportacao, mes, $form) {
+
+    if (!tipoExportacao || !$form) {
+        return;
+    }
+
+    let url = `${BASEURL}/relatorio/despesas/excel`;
+
+    if (mes) {
+        url += `?mes=${mes}`;
+    }
+
+    const response = await fetch(url, {
+        credentials: 'include'
+    });
+
+    if (!response.ok) {
+
+        if (response.status === 404) {
+            alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaAviso, "Não existem despesas para o período selecionado");
+            return;
+        }
+
+        alertaMensagem(CONSTANTES_TIPO_ALERTA.alertaErro, "Ops, houve um erro ao gerar o relatório excel");
+        return;
+    }
+
+    const blob = await response.blob();
+
+    const urlArquivo = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+
+    link.href = urlArquivo;
+    link.download = 'controle-financeiro.xlsx';
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    window.URL.revokeObjectURL(urlArquivo);
+
+    $form[0].reset();
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById('modalExportar'));
+
+    modal.hide();
+
+    $form.removeClass('was-validated');
 }
 
 function renderizarCardDespesas(despesas) {
