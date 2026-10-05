@@ -1,5 +1,5 @@
 # Controle Financeiro
-![Status](https://img.shields.io/badge/PROJETO-EM_DESENVOLVIMENTO-yellow?style=for-the-badge)
+![Status](https://img.shields.io/badge/PROJETO-EM_PLANEJAMENTO-yellow?style=for-the-badge)
 
 > No final da pagina, tem uma explicação breve das futuras implementações.
 
