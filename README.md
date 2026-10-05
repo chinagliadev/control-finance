@@ -95,6 +95,25 @@ O gráfico é alimentado pelo endpoint `GET /despesas/totalCategoriaDespesas`, q
 
 ![Gráfico de despesas por categoria](src/main/resources/static/doc/img/img-grafico.png)
 
+
+#### Relatórios
+
+Para gerar um relatório, o sistema disponibiliza um botão específico chamado **“Exportar”**. Ao clicar nele, é exibido um modal com duas opções de exportação: **Excel** ou **Relatório (PDF)**.
+
+![Modal Relatório](src/main/resources/static/doc/img/img-modal-relatorio.png)
+
+##### Excel
+
+> O arquivo Excel apresenta as despesas do mês selecionado de forma organizada, contendo informações como nome da despesa, categoria, valor, data e situação. Cada despesa é apresentada em uma linha, facilitando a visualização, análise e organização dos dados.
+
+![Excel](src/main/resources/static/doc/img/img-excel.png)
+
+##### Relatório (PDF)
+
+> O relatório em PDF apresenta as despesas do mês selecionado de forma detalhada e organizada, contendo informações como nome da despesa, categoria, valor, data e situação. O documento possui um formato adequado para visualização, impressão e compartilhamento, facilitando a consulta das informações financeiras.
+
+![Relatorio](src/main/resources/static/doc/img/relatorio.png)
+
 ## Back-End
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/spring%20boot-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white) ![Spring Security](https://img.shields.io/badge/spring%20security-%236DB33F.svg?style=for-the-badge&logo=springsecurity&logoColor=white) ![Hibernate](https://img.shields.io/badge/hibernate-%2359666C.svg?style=for-the-badge&logo=hibernate&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-%234479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Maven](https://img.shields.io/badge/maven-%23C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=jsonwebtokens&logoColor=white) ![Swagger](https://img.shields.io/badge/swagger-%2385EA2D.svg?style=for-the-badge&logo=swagger&logoColor=black)
@@ -365,6 +384,59 @@ Calcula o total das despesas agrupadas por categoria (usado para o gráfico).
 
 `mes` (opcional): se informado, calcula os totais apenas do mês escolhido (valores de `1` a `12`).
 
+##### Exportação de despesas
+
+O sistema permite exportar as despesas do mês selecionado em dois formatos: **Excel (.xlsx)** e **Relatório (PDF)**.
+
+##### Exportar despesas para Excel
+
+`GET /relatorio/despesas/excel?mes=10`
+
+Gera uma planilha **Excel (.xlsx)** contendo as despesas do mês informado.
+
+A planilha apresenta informações como:
+
+* Nome da despesa
+* Categoria
+* Valor
+* Data
+* Situação
+
+`mes` (opcional): mês de referência para a exportação, com valores de `1` a `12`.
+
+Exemplo:
+
+```text
+GET /relatorio/despesas/excel?mes=10
+```
+
+O endpoint retorna o arquivo Excel para download.
+
+##### Gerar relatório de despesas em PDF
+
+`GET /relatorio/despesas?mes=10`
+
+Gera um **relatório em PDF** contendo as despesas do mês informado.
+
+O relatório apresenta informações como:
+
+* Nome da despesa
+* Categoria
+* Valor
+* Data
+* Situação
+
+`mes` (opcional): mês de referência para o relatório, com valores de `1` a `12`.
+
+Exemplo:
+
+```text
+GET /relatorio/despesas?mes=10
+```
+
+O endpoint retorna o arquivo PDF gerado pelo **JasperReports**.
+
+
 ---
 
 ### Estrutura do projeto
@@ -386,15 +458,3 @@ src/main/resources
 ├── static         # Front-end (HTML/CSS/JS)
 └── application.properties
 ```
-
-## Futuras implementações
-
-![Excel](https://img.shields.io/badge/Excel-217346?style=for-the-badge&logo=microsoftexcel&logoColor=white) ![JasperReports](https://img.shields.io/badge/JasperReports-B22222?style=for-the-badge&logo=jasper&logoColor=white)
-
-#### Exportação para Excel
-
-Permitir que o usuário exporte suas despesas para uma planilha **Excel (.xlsx)**, com filtro por mês e por categoria. Muita gente já organiza as finanças em planilhas, então essa exportação facilita a análise dos dados fora do sistema, backups e a comparação com outros controles.
-
-####  Relatórios com JasperReports
-
-Gerar **relatórios em PDF** com o **JasperReports**, como o resumo mensal, o total por categoria e as parcelas a vencer. A ideia é dar ao usuário um documento pronto, bem formatado e fácil de imprimir ou compartilhar, complementando o gráfico da tela inicial.
